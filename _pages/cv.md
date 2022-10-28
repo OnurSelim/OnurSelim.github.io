@@ -9,47 +9,53 @@ redirect_from:
 
 {% include base_path %}
 
+You can find my official CV as a PDF [here](/files/Onur_Selim_CV.pdf).
+
 ## Education
 
-<ins>M.Sc. in Electrical and Electronics Engineering, 10/2020 - Present</ins>
+<ins>Ph.D. in Electrical and Electronics Engineering, 10/2022 - Present</ins>
 :   *[Middle East Technical University, Department of Electrical & Electronics Engineering](https://eee.metu.edu.tr)*
 :   *Specialization Area: Signal Processing*
+
+<ins>M.Sc. in Electrical and Electronics Engineering, 10/2020 - 08/2022</ins>
+:   *[Middle East Technical University, Department of Electrical & Electronics Engineering](https://eee.metu.edu.tr)*
+:   *Thesis: Utilization of Event-based Cameras for Video Frame Interpolation*
 :   *CGPA: 3.93 / 4.00*
 
-<ins>B.Sc. in Mathematics (Double Major), 10/2017 - 07/2022</ins>
+<ins>B.Sc. in Mathematics (Double Major), 10/2017 - 07/2021</ins>
 :   *[Middle East Technical University, Department of Mathematics](https://math.metu.edu.tr)*
-:   *High Honour, CGPA: 3.87 / 4.00*
+:   *High Honour, CGPA: 3.61 / 4.00*
 
 <ins>B.Sc. in Electrical and Electronics Engineering, 10/2016 - 01/2021</ins>
 :   *[Middle East Technical University, Department of Electrical & Electronics Engineering](https://eee.metu.edu.tr)*
-:   *Specialization Area: Biomedical Engineering*
-:   *High Honour, CGPA: 3.76 / 4.00*
+:   *Specialization Area: Signal Processing and Communications*
+:   *High Honour, CGPA: 3.67 / 4.00*
 
-<ins>High School Graduate, 09/2012 - 06/2016</ins>
-:   *[Ankara Private Tevfik Fikret High School](https://ankara.tfo.k12.tr/)*
+## Publications
+  <ul>{% for post in site.publications %}
+    {% include archive-single-cv.html %}
+  {% endfor %}</ul>
 
-## Experience
+## Work Experience
 
-<ins>February 2022 - Present: Research Assistant</ins>
-:   *[Middle East Technical University](https://eee.metu.edu.tr/personel/ogul-yurdakul)*
-:   Although the job title is "research assistant," it is a teaching assistantship position, meaning I will be TA for various courses, likely changing from semester to semester.
-:   During Spring 2021-2022, I was responsible for [EE230](https://catalog.metu.edu.tr/course.php?course_code=5670230) and the updated [EE306](https://catalog.metu.edu.tr/course.php?course_code=5670306).
+<ins>November 2020 - Present: Research Assistant</ins>
+:   *[Middle East Technical University](https://eee.metu.edu.tr/personel/onur-selim-kilic)*
+:   Worked as a research assistant in the METU Electrical and Electronics Engineering. Helped students while they are conducting experiments or gathering and analyzing data in the context of their lectures. Attended exams as proctor, read and graded reports and quizzes.
 
-<ins>Summer 2019 - Present: Lab Member</ins>
-:   *[METU EEE Sensor Fusion Research Group](http://sensorfusion.eee.metu.edu.tr)*
-:   *Supervisor: Assoc. Prof. Dr. Emre Özkan*
-:   I study statistical signal processing, with emphasis on particle filters and Chernoff fusion.
+<ins>June 2020 - Present: Scientific Project Specialist</ins>
+:   *[METU Center for Image Analysis](http://ogam.metu.edu.tr/en/)*
+:   *Supervisor: Prof. Dr. A. Aydın Alatan*
+:   Designed and developed a cognitive real-time camera system to enhance face recognition quality in a project granted by The Republic of Turkey Presidency of Defense Industries. Face detection, object tracking, and background substraction algorithms were utilized within the project's scope using different camera models of  [HiSilicon](https://www.hisilicon.com/en/). Using C++, these embedded systems are designed to give feedback through their pipelines utilizing a multi-threaded procedure. Generated and managed testing processes and observed the success of the proposed method under various challenging scenarios.}
 
-<ins>Summer 2019: Summer Intern in Research</ins>
-:   *Karunya Institute of Technology and Sciences, Department of Instrumentation Engineering*
-:   *Supervisors: Dr. M.S.P. Subathra & Dr. S. Thomas George*
-:   Wanting to experience being part of a research project, I decided to go to a research internship (and an adventure) via IAESTE, and the project in KITS seemed interesting (although that's not the finalized project). I got to ask research questions with the help of my supervisors, and they helped me follow my own ideas based on the material I had, which produced [this paper](/publications/nr-lbp).
+<ins>Summer 2019: Summer Intern</ins>
+:   *HAVELSAN*
+:   Proposed and developed an object detection and segmentation algorithm which was based on the algorithms [Mask R-CNN](https://arxiv.org/abs/1703.06870) and [ResUNET](https://arxiv.org/abs/1904.00592) using Python.
 
 <ins>Summer 2018: Summer Intern</ins>
-:   *IBM Turkey, Istanbul Office*
-:   This was my first ever internship, and I value that it was *not* in research but in industry. I didn't do anything noteworthy if you ask me (understandable, as I had just finished 2nd year so I didn't know much), but still I enjoyed my time there and learned some stuff, especially about working in an office/company environment. It helped me see what to look for in a company if I were ever to switch to working in the industry. 
+:   *ESEN System Integration*
+:   Designed and developed a baseline pedestrian detection algorithm using  [Support Vector Machines (SVM)](https://ieeexplore.ieee.org/document/708428) together with a graphical user interface for wide-area surveillance using MATLAB.
 
-## Leadership and Teaching Experience
+## Teaching Experience
 
 <ins>July 2021: Teaching Assistant </ins>
 :   *[Neuromatch Academy](https://academy.neuromatch.io) Computational Neuroscience track, Tutorial TA ([Certificate](/files/NMA_TA_Certificate.pdf))*
@@ -59,27 +65,6 @@ redirect_from:
 <ins>Fall 2018 & Spring 2020: Part-Time Student Assistant</ins>
 :   *METU Department of Mathematics*
 :   I was the student assistant for the course MA153 Calculus for Mathematics Students I (Fall 2018) and MA154 Calculus for Mathematics Students II (Spring 2020); and I graded weekly assignments and provided feedback to students.
-
-## Organizations, Trainings & Others
-
-<ins>2019 - 2021: Coordinator in IAESTE LC METU</ins>
-:   I was responsible for the acquisition and organization of work offers from around Ankara for IAESTE LC METU, trained newcomers on company relations, and hosted the incoming interns.
-
-<ins>Summer 2020: Interactive Student in Neuromatch Academy</ins>
-:   I participated in a 3-week long, intense summer school as an interactive student, which entailed preparing a project. In the project, we used linear models from scikit-learn Python library and worked on preprocessed fMRI data. 
-:   NMA became a cornerstone in defining my scientist-to-be, with its inclusivity and commitment to open science. At the end of these three weeks, I was already keen on remaining a part of NMA, somehow.
-
-<ins>Fall 2019: Instructor for Mathematics Workshop</ins>
-:   I was offered an opportunity to deliver a workshop on mathematics to a group of second-year at my high school Ankara Private Tevfik Fikret High School. More in [side gigs](/whatnot/2022/00/side_gigs/#maths-workshop).
-
-<ins>05/2017 – 05/2018: Team Leader and Director of Communications for [TEDxMETUAnkara 2017 "Grand Illusions"](https://www.ted.com/tedx/events/25058)</ins>
-:   I booked speakers and worked with them on their speeches and was responsible for the overall operations of the event. I also designed and managed [the event website](https://www.tedxmetuankara.com) on Wix. More in [side gigs](/whatnot/2022/00/side_gigs/#tedxmetuankara).
-
-## Publications
-I suppose a CV has to contain this section. So, for completeness sake, here is a list of publication(s, hopefully).
-  <ul>{% for post in site.publications %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
 
 ## Languages
 
@@ -91,5 +76,5 @@ I suppose a CV has to contain this section. So, for completeness sake, here is a
 <ins>Formal:</ins>
 :   *MATLAB*
 :   *Python*
-:   *C
-:   *C++
+:   *C*
+:   *C++*
