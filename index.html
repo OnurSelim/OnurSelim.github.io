@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Onur Selim Kılıç</title>
+  <meta name="description" content="Onur Selim Kılıç — Ph.D. student at Georgia Tech working on machine learning for physiological signals.">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --text: #222; --muted: #666; --link: #1772d0; --hover: #f09228; --bg: #fff; --line: #e5e5e5; --hl: #ffffd0; }
+    @media (prefers-color-scheme: dark) {
+      :root { --text: #ddd; --muted: #999; --link: #5ea9f2; --bg: #161616; --line: #333; --hl: #2a2a1c; }
+    }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.6 Lato, Verdana, Helvetica, sans-serif; }
+    main { max-width: 800px; margin: 0 auto; padding: 24px 16px 48px; }
+    a { color: var(--link); text-decoration: none; }
+    a:hover, a:focus { color: var(--hover); }
+    h1 { font-size: 32px; font-weight: 400; margin: 0 0 4px; }
+    h2 { font-size: 22px; font-weight: 400; margin: 40px 0 12px; padding-bottom: 4px; border-bottom: 1px solid var(--line); }
+    h3 { font-size: 17px; font-weight: 700; margin: 24px 0 8px; }
+    nav { margin: 8px 0 24px; }
+    nav a { margin-right: 14px; }
+    .about { display: flex; gap: 28px; align-items: center; }
+    .about img { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+    .links { text-align: center; margin-top: 12px; }
+    .links a { margin: 0 6px; }
+    .entry { display: flex; gap: 16px; margin-bottom: 18px; }
+    .entry .date { flex: 0 0 140px; color: var(--muted); }
+    .entry p { margin: 2px 0; }
+    .entry ul { margin: 4px 0; padding-left: 18px; }
+    .muted { color: var(--muted); }
+    .pub { display: flex; gap: 20px; align-items: flex-start; padding: 10px; margin: 0 -10px 12px; border-radius: 6px; }
+    .pub.hl { background: var(--hl); }   /* first-author papers */
+    /* Every teaser sits in the same 4:3 white frame; the figure is scaled to fit inside it
+       (object-fit: contain), so wide and tall figures keep their own aspect ratio. Click to enlarge. */
+    .teaser {
+      flex: 0 0 240px; aspect-ratio: 4 / 3; box-sizing: border-box; padding: 6px;
+      display: flex; align-items: center; justify-content: center;
+      background: #fff; border: 1px solid var(--line); border-radius: 6px; cursor: zoom-in;
+    }
+    .teaser img, .teaser video { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
+    .tldr { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
+    /* figures have white backgrounds; keep them on a white card in dark mode too */
+    .highlight video, figure video {
+      display: block; width: 100%; height: auto; background: #fff;
+      border: 1px solid var(--line); border-radius: 6px;
+    }
+    dialog.zoom { border: 0; padding: 12px; border-radius: 8px; background: #fff; max-width: 92vw; max-height: 92vh; cursor: zoom-out; }
+    dialog.zoom::backdrop { background: rgba(0, 0, 0, .75); }
+    dialog.zoom > * { display: block; max-width: calc(92vw - 24px); max-height: calc(92vh - 24px); }
+    dialog.zoom > video { width: 1100px; height: auto; }   /* videos report no size until loaded; give them a target width */
+    figure { margin: 24px 0 0; }
+    figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
+    .highlight { display: flex; gap: 24px; align-items: center; }
+    .highlight video { flex: 0 0 300px; width: 300px; }
+    .credit { font-size: 12px; }
+    .papertitle { font-weight: 700; }
+    .award { color: #c0392b; font-weight: 700; }
+    ul.news { padding-left: 18px; }
+    @media (max-width: 600px) {
+      .about, .entry, .pub, .highlight { flex-direction: column; gap: 8px; }
+      .teaser, .highlight video { flex: none; width: 100%; max-width: 400px; }
+      .teaser { aspect-ratio: auto; }   /* stacked on phones: let the figure use its natural height */
+      .about { align-items: center; }
+      .entry .date { flex: none; }
+    }
+  </style>
+</head>
+<body>
+<main>
+
+  <header>
+    <h1>Onur Selim Kılıç</h1>
+    <div class="muted">Ph.D. student · Machine learning for physiological signals · Georgia Tech</div>
+    <nav>
+      <a href="#about">About</a><a href="#research">Research</a><a href="#news">News</a><a href="#publications">Publications</a><a href="#experience">Experience</a><a href="#teaching">Teaching</a><a href="assets/cv.pdf">CV</a>
+    </nav>
+  </header>
+
+  <section id="about" class="about">
+    <div>
+      <p>
+        I am a Ph.D. student in Electrical and Computer Engineering at Georgia Tech, advised by
+        Prof. Omer T. Inan in the <a href="https://irl.gatech.edu/">Inan Research Lab</a>.
+      </p>
+      <p>
+        I work on generative modeling and time-series analysis for biomedical and wearable sensing.
+        I build flow-based generative models and physics-informed neural networks that translate and denoise
+        physiological signals across sensor configurations while preserving phase and morphology,
+        and validate them on real-world clinical data, not just benchmarks.
+      </p>
+      <p>
+        Before Georgia Tech, I did my M.S. at <a href="https://ogam.metu.edu.tr/">METU Center for Image Analysis</a>
+        with Prof. A. Aydın Alatan, working on event-based cameras for video frame interpolation.
+      </p>
+      <p class="links">
+        <a href="mailto:kselim97@gmail.com">Email</a> /
+        <a href="assets/cv.pdf">CV</a> /
+        <a href="https://scholar.google.com/citations?user=cGBKVNIAAAAJ">Scholar</a> /
+        <a href="https://github.com/OnurSelim">GitHub</a> /
+        <a href="https://www.linkedin.com/in/onur-selim-kili%C3%A7-6486371a7/">LinkedIn</a> /
+        <a href="https://orcid.org/0000-0003-4159-9972">ORCID</a> /
+        <a href="https://twitter.com/selimkl2">X</a>
+      </p>
+    </div>
+    <img src="assets/prof_pic.jpg" alt="Photo of Onur Selim Kılıç">
+  </section>
+
+  <section id="research">
+    <h2>Research</h2>
+    <div class="highlight">
+      <video src="assets/videos/thorax.mp4" poster="assets/videos/thorax.webp" autoplay muted loop playsinline aria-label="Animated thorax: the beating heart sends vibrations to wearable sensors on the sternum, pectoral and clavicle"></video>
+      <div>
+        <p>
+          My thesis studies the <em>cardiac</em> and <em>morphological</em> phase of wearable cardiovascular signals.
+          It has three parts: estimating phase robustly (<a href="#stht">Stabilized Hilbert Transform</a>),
+          detecting cardiac events (<a href="#hikaf">heart-rate-informed Kalman filter</a>), and translating
+          seismocardiograms recorded at different chest locations to the standard sternum location
+          (<a href="#cgfm">Cylindrical Geodesic Flow Matching</a>).
+        </p>
+        <p class="muted credit">
+          Heart: <a href="https://sketchfab.com/3d-models/beating-heart-d9845afb1ee64ad094adc96320c67d98">“Beating Heart”</a> by jalmer, CC BY 4.0.
+          Anatomy: <a href="https://lifesciencedb.jp/bp3d/">BodyParts3D</a>, © The Database Center for Life Science, CC BY 4.0.
+        </p>
+      </div>
+    </div>
+    <figure>
+      <video src="assets/videos/two_phases.mp4" poster="assets/videos/two_phases.webp" autoplay muted loop playsinline aria-label="ECG with sternum and clavicle SCG; cardiac phase and morphological phase are drawn beat by beat"></video>
+      <figcaption>Cardiac phase φ<sub>c</sub>, which advances from one ECG R-peak to the next, and morphological phase φ<sub>m</sub>, from the Hilbert transform of each SCG, for simultaneous sternum and clavicle recordings.</figcaption>
+    </figure>
+  </section>
+
+  <section id="news">
+    <h2>News</h2>
+    <!-- Newest first. Copy a line to add one. -->
+    <ul class="news">
+      <li><span class="muted">2026</span> — <em>Cylindrical Geodesic Flow Matching</em> accepted at NeurIPS 2026.</li>
+      <li><span class="muted">Summer 2026</span> — Data Science Intern at <a href="https://cardiosense.com/">Cardiosense</a>, Chicago.</li>
+      <li><span class="muted">2026</span> — <em>Guideline2Graph</em> received the <span class="award">Best Presentation</span> award at the CVPR 2026 Medical Reasoning with VLM Foundation Models Workshop.</li>
+      <li><span class="muted">2025</span> — Non-invasive cardiac output monitoring paper received the <span class="award">Best Paper</span> award at BSN 2025.</li>
+    </ul>
+  </section>
+
+  <section id="publications">
+    <h2>Publications</h2>
+    <p class="muted">Papers where I am first or second author. * equal contribution. Highlighted: first-author papers. Full list on <a href="https://scholar.google.com/citations?user=cGBKVNIAAAAJ">Google Scholar</a>.</p>
+    <!-- Copy a .pub block to add a paper. Add class "hl" to highlight it.
+         Teaser: <img> or <video autoplay muted loop playsinline> inside <div class="teaser">; omit the div for text-only. -->
+
+    <h3>Conference papers</h3>
+
+    <div class="pub hl">
+      <div class="teaser" data-full="assets/teasers/physics_fm_full.webp"><img src="assets/teasers/physics_fm.webp" alt="Flow-time paths of direct supervision, PINN, flow matching, FM with endpoint PINN, and the proposed method" loading="lazy"></div>
+      <div>
+        <span class="papertitle">Physics-Constrained Direct Flow Matching: Governing the Source-to-Target Vector Field with a Known Physiological Law</span><br>
+        <strong>Onur Selim Kılıç*</strong>, Holland E. Ernst*, Ozgur Kara, James M. Rehg, Amit J. Shah, Omer T. Inan<br>
+        <em>ICLR 2027</em>, under review
+        <p class="tldr">Imposes a known source-to-target physiological law, a learned two-element Windkessel model, directly on the flow-matching vector field at every flow time rather than only on predicted endpoints.</p>
+      </div>
+    </div>
+
+    <div class="pub hl" id="cgfm">
+      <div class="teaser" data-full="assets/teasers/cylindrical_fm_full.webp"><img src="assets/teasers/cylindrical_fm.webp" alt="Affine, naive Hilbert and cylindrical geodesic paths from source to target signal over flow time" loading="lazy"></div>
+      <div>
+        <span class="papertitle">Cylindrical Geodesic Flow Matching for Quasiperiodic Physiological Signal Transformation</span><br>
+        <strong>Onur Selim Kılıç</strong>, Afra Nawar, Cem O. Yaldiz, Michael J. Cho, Ahmet Rasim Emirdagi, Demet Tangolar, Amirali Aghazadeh, Amit J. Shah, Omer T. Inan<br>
+        <em>NeurIPS 2026</em>
+        <p class="tldr">Translates quasiperiodic signals such as PPG and SCG across sensing locations by flow matching along a closed-form geodesic on the phase–amplitude cylinder instead of the standard affine path.</p>
+      </div>
+    </div>
+
+    <div class="pub hl">
+      <div class="teaser" data-full="assets/teasers/guideline2graph_full.webp"><img src="assets/teasers/guideline2graph.webp" alt="Traditional practice and one-shot summarization compared with the proposed chunk, generate and aggregate pipeline" loading="lazy"></div>
+      <div>
+        <a class="papertitle" href="https://arxiv.org/abs/2604.02477">Guideline2Graph: Profile-Aware Multimodal Parsing for Executable Clinical Decision Graphs</a><br>
+        <strong>Onur Selim Kılıç</strong>, Yeti Z. Gurbuz, Cem O. Yaldiz, Afra Nawar, Etrit Haxholli, Ogul Can, Eli Waxman<br>
+        <em>CVPR 2026 Workshop on Medical Reasoning with Vision-Language Foundation Models</em> · <span class="award">Best Presentation</span><br>
+        <a href="https://arxiv.org/abs/2604.02477">arXiv</a>
+        <p class="tldr">Turns full clinical practice guidelines into executable decision graphs through topology-aware chunking, interface-constrained graph generation and provenance-preserving aggregation.</p>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div>
+        <a class="papertitle" href="https://openreview.net/forum?id=ziFNeJYT1D">Short-Term Physiological Forecasting with Adaptive Covariance Matrix Estimation</a><br>
+        Cem O. Yaldiz, <strong>Onur Selim Kılıç</strong>, Omer T. Inan<br>
+        <em>BSN 2025</em>
+        <p class="tldr">An autoregressive Kalman filter that estimates its noise covariances adaptively, for beat-to-beat forecasting of cardiac timing intervals without hyperparameter tuning.</p>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div>
+        <a class="papertitle" href="https://openreview.net/forum?id=3oVBk5Q3RP">Enabling Intelligent Resuscitation: Non-Invasive Cardiac Output Monitoring via Physiological Sensing and Machine Learning</a><br>
+        Demet Tangolar, <strong>Onur Selim Kılıç</strong>, Samuel Liu, Cem O. Yaldiz, Jacob P. Kimball, Omer T. Inan<br>
+        <em>BSN 2025</em> · <span class="award">Best Paper</span>
+        <p class="tldr">Estimates stroke volume and cardiac output from wearable ECG, SCG and PPG without baseline calibration, in a porcine hemorrhage and resuscitation model.</p>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="teaser" data-full="assets/teasers/maevi_full.webp"><img src="assets/teasers/maevi.webp" alt="MAEVI architecture: event voxel encoder, moving-region filter and region-biased loss" loading="lazy"></div>
+      <div>
+        <a class="papertitle" href="https://arxiv.org/abs/2303.02025">MAEVI: Motion Aware Event-Based Video Frame Interpolation</a><br>
+        Ahmet Akman, <strong>Onur Selim Kılıç</strong>, A. Aydın Alatan<br>
+        <em>arXiv preprint</em>, 2023<br>
+        <a href="https://arxiv.org/abs/2303.02025">arXiv</a> / <a href="https://github.com/ahmetakman/MAEVI">code</a>
+        <p class="tldr">Uses events to locate moving regions and emphasizes them with a region-biased loss, reducing ghosting and blur in interpolated frames.</p>
+      </div>
+    </div>
+
+    <div class="pub hl">
+      <div class="teaser" data-full="assets/teasers/evfia_full.webp"><img src="assets/teasers/evfia.webp" alt="E-VFIA architecture: event voxel with multi-head self-attention, pooling pyramid and synthesis blocks" loading="lazy"></div>
+      <div>
+        <a class="papertitle" href="https://arxiv.org/abs/2209.09359">E-VFIA: Event-Based Video Frame Interpolation with Attention</a><br>
+        <strong>Onur Selim Kılıç</strong>, Ahmet Akman, A. Aydın Alatan<br>
+        <em>ICRA 2023</em><br>
+        <a href="https://arxiv.org/abs/2209.09359">arXiv</a> / <a href="https://github.com/ahmetakman/E-VFIA">code</a>
+        <p class="tldr">A lightweight kernel-based interpolator that fuses event and RGB features with deformable convolutions and encodes events with multi-head self-attention.</p>
+      </div>
+    </div>
+
+    <h3>Journal articles</h3>
+
+    <div class="pub hl" id="stht">
+      <div class="teaser" data-full="assets/teasers/stht_full.mp4"><video src="assets/teasers/stht.mp4" poster="assets/teasers/stht_poster.webp" autoplay muted loop playsinline aria-label="StHT walkthrough: a spike in the Hilbert phase increment is located, the unstable region and extension zones are marked, and the repaired phase and signal are shown"></video></div>
+      <div>
+        <span class="papertitle">The Stabilized Hilbert Transform: Local Phase Repair for Robust Instantaneous Phase Estimation in Physiological Signals</span><br>
+        <strong>Onur Selim Kılıç</strong>, Afra Nawar, Cem Okan Yaldiz, Amit J. Shah, Omer T. Inan<br>
+        <em>Computers in Biology and Medicine</em>, under review
+        <p class="tldr">Detects where the Hilbert phase becomes unstable at low amplitude and replaces it with the smoothest phase trajectory consistent with the observed phase change.</p>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="teaser" data-full="assets/teasers/bp_reactivity_full.webp"><img src="assets/teasers/bp_reactivity.webp" alt="Study overview: post-myocardial-infarction participants under a public speaking stressor; ECG, SCG and PCG features from a multimodal patch classify blood pressure reactivity" loading="lazy"></div>
+      <div>
+        <span class="papertitle">Automated Detection of Abnormal Stress-Induced Blood Pressure Reactivity in Post-Myocardial-Infarction Individuals Using Multimodal Wearable Signals</span><br>
+        Afra Nawar, <strong>Onur Selim Kılıç</strong>, Cem O. Yaldiz, Farhan N. Rahman, George Haddad, Lewam Stefanos, Tatum Roberts, Jeffery Osei, Kara Suvada, Abdulkareem Murtala, Lucy Shallenberger, Arshed Quyyumi, Kasra Moazzami, Viola Vaccarino, Omer T. Inan, Amit J. Shah<br>
+        <em>ACM Transactions on Computing for Healthcare</em>, under review
+      </div>
+    </div>
+
+    <div class="pub">
+      <div>
+        <span class="papertitle">Deep Learning Framework for Seismocardiography Signal Quality Classification with Cross-Species Few-Shot Transfer Learning</span><br>
+        Michael J. Cho, <strong>Onur Selim Kılıç</strong>, Cem O. Yaldiz, Vikram Abbaraju, Afra Nawar, Ahmet Rasim Emirdagi, Demet Tangolar, Farhan N. Rahman, Gabriela I. Cestero, Maako Fangajei, Zeineb Bouzid, Omer T. Inan<br>
+        <em>ACM Transactions on Computing for Healthcare</em>, under review
+      </div>
+    </div>
+
+    <div class="pub hl">
+      <div class="teaser" data-full="assets/teasers/knee_oa_full.webp"><img src="assets/teasers/knee_oa.webp" alt="Pipeline: knee sound, band-pass filter, spectrogram, ResNet and FullGrad saliency" loading="lazy"></div>
+      <div>
+        <a class="papertitle" href="https://www.nature.com/articles/s44385-025-00064-4">A Robust and Interpretable Deep Transfer Learning Framework on Knee Acoustic Emissions for Osteoarthritis Classification</a><br>
+        <strong>Onur Selim Kılıç*</strong>, Ahmet Rasim Emirdagi*, Christopher J. Nichols, Quentin Goossens, Dave Ewart, Omer T. Inan<br>
+        <em>npj Biomedical Innovations</em>, 2025
+        <p class="tldr">Classifies knee osteoarthritis from acoustic emission spectrograms with a transfer-learned ResNet-18, using FullGrad saliency to show which time–frequency regions drive each decision.</p>
+      </div>
+    </div>
+
+    <div class="pub">
+      <div class="teaser" data-full="assets/teasers/core_ppg_full.webp"><img src="assets/teasers/core_ppg.webp" alt="Concept: core-body PPG on the sternum alongside peripheral finger PPG, studied across postures and breathing in ambulatory monitoring" loading="lazy"></div>
+      <div>
+        <a class="papertitle" href="https://ieeexplore.ieee.org/document/11123627">Elucidating the Reactivity of Reflectance-Based Core Body Photoplethysmogram to Posture and Respiratory Changes</a><br>
+        Afra Nawar, <strong>Onur Selim Kılıç</strong>, Farhan N. Rahman, Chuoqi Chen, Michael Chan, John A. Berkebile, Amit J. Shah, Omer T. Inan<br>
+        <em>IEEE Sensors Journal</em>, 2025
+        <p class="tldr">Compares sternum and back reflectance PPG with finger PPG across posture and breathing changes in 24 healthy participants.</p>
+      </div>
+    </div>
+
+    <div class="pub hl" id="hikaf">
+      <div class="teaser" data-full="assets/teasers/hikaf_full.webp"><img src="assets/teasers/hikaf.webp" alt="HIKAF pipeline: baseline peak clustering, heart-rate-scaled aortic-opening candidate selection, and Kalman filtering" loading="lazy"></div>
+      <div>
+        <a class="papertitle" href="https://pubmed.ncbi.nlm.nih.gov/40541072/">Heart Rate Informed Detection of Cardiac Events Using the Kalman Filter</a><br>
+        <strong>Onur Selim Kılıç</strong>, Afra Nawar, Cem O. Yaldiz, Farhan N. Rahman, Chuoqi Chen, Amit J. Shah, Omer T. Inan<br>
+        <em>Computers in Biology and Medicine</em>, 2025
+        <p class="tldr">Detects aortic valve opening and closure in noisy seismocardiograms by combining heart-rate-scaled candidate selection from a resting baseline with a Kalman filter.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="education">
+    <h2>Education</h2>
+    <div class="entry"><div class="date">2022 – present</div><div>
+      <p><strong>Ph.D., Electrical and Computer Engineering</strong>, Georgia Tech</p>
+      <p class="muted">Machine learning, biomedical signal processing · Advisor: Prof. Omer T. Inan</p></div></div>
+    <div class="entry"><div class="date">2020 – 2022</div><div>
+      <p><strong>M.S., Electrical and Electronics Engineering</strong>, Middle East Technical University (METU)</p>
+      <p class="muted">Thesis: Utilization of Event-based Cameras for Video Frame Interpolation · Advisor: Prof. A. Aydın Alatan</p></div></div>
+    <div class="entry"><div class="date">2017 – 2021</div><div>
+      <p><strong>B.S., Mathematics (double major)</strong>, METU</p>
+      <p class="muted">High honors</p></div></div>
+    <div class="entry"><div class="date">2016 – 2020</div><div>
+      <p><strong>B.S., Electrical and Electronics Engineering</strong>, METU</p>
+      <p class="muted">Signal processing and communications · High honors</p></div></div>
+  </section>
+
+  <section id="experience">
+    <h2>Research experience</h2>
+    <div class="entry"><div class="date">2022 – present</div><div>
+      <p><strong>Graduate Research Assistant</strong>, <a href="https://irl.gatech.edu/">Inan Research Lab</a>, Georgia Tech</p>
+      <p>Flow-matching generative models, physics-informed neural networks, instantaneous phase estimation and Kalman-filter event detection
+        for physiological signals. Ran laboratory and clinical sensing studies (IRB, recruitment, multimodal data collection),
+        and mentor graduate and undergraduate students.</p></div></div>
+    <div class="entry"><div class="date">2020 – 2022</div><div>
+      <p><strong>Scientific Project Specialist</strong>, <a href="https://ogam.metu.edu.tr/">METU Center for Image Analysis</a></p>
+      <p>Real-time embedded camera system to improve face-recognition quality (multi-threaded C++ on HiSilicon cameras).</p></div></div>
+
+    <h2>Industry experience</h2>
+    <div class="entry"><div class="date">Summer 2026</div><div>
+      <p><strong>Data Science Intern</strong>, <a href="https://cardiosense.com/">Cardiosense</a>, Chicago</p>
+      <p>Reconstruction and representation learning for signal-quality assessment to improve PCWP estimation;
+        curated a multimodal clinical waveform dataset of millions of windows for foundation-model training.</p></div></div>
+    <div class="entry"><div class="date">2023 – 2025</div><div>
+      <p><strong>Research Engineer</strong>, <a href="https://www.metadialog.com/">MetaDialog</a>, Dubai</p>
+      <p>LLM pipelines that turn multimodal clinical guidelines into executable decision graphs, plus LLM agents for code generation and data extraction.</p></div></div>
+    <div class="entry"><div class="date">Summer 2019</div><div>
+      <p><strong>Intern</strong>, HAVELSAN, Ankara</p>
+      <p>Object detection and segmentation based on Mask R-CNN and ResUNet.</p></div></div>
+    <div class="entry"><div class="date">Summer 2018</div><div>
+      <p><strong>Intern</strong>, ESEN System, Ankara</p>
+      <p>SVM-based pedestrian detection with a GUI for wide-area surveillance.</p></div></div>
+  </section>
+
+  <section id="teaching">
+    <h2>Teaching &amp; recognition</h2>
+    <div class="entry"><div class="date">Teaching</div><div>
+      <p>TA, Georgia Tech ECE 4122/6122 Advanced Programming Techniques (Fall 2023)</p>
+      <p>TA, Georgia Tech ECE 3550 Feedback Control of Dynamic Systems (Summer 2023)</p>
+      <p>TA, Georgia Tech ECE 4803/8804 Fundamentals of Machine Learning (Spring 2023)</p>
+      <p>TA, METU EE213/EE214 Electrical and Electronics Circuits Lab (2021–2023)</p>
+      <p>TA, METU EE306 Signals and Systems II (Spring 2021)</p></div></div>
+    <div class="entry"><div class="date">Awards</div><div>
+      <p>Best Presentation, CVPR 2026 workshop (Medical Reasoning with VLM Foundation Models)</p>
+      <p>Best Paper, BSN 2025</p>
+      <p>Georgia Tech ECE Fellowship (2022)</p>
+      <p>Bülent Kerim Altay Award (2020)</p>
+      <p>METU High Honor Student (2016–2020) · TÜBİTAK 2205 Scholarship (2016–2020)</p></div></div>
+  </section>
+
+
+</main>
+<script>
+  // Respect reduced-motion: show the poster frame instead of looping animations.
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('video').forEach(v => { v.removeAttribute('autoplay'); v.pause(); });
+
+  // Click a teaser to see the figure large; click anywhere or press Esc to close.
+  const zoom = document.createElement('dialog');
+  zoom.className = 'zoom';
+  document.body.append(zoom);
+  zoom.addEventListener('click', () => zoom.close());
+  document.querySelectorAll('.teaser').forEach(t => t.addEventListener('click', () => {
+    // data-full on the teaser = high-resolution image for the enlarged view
+    const el = t.firstElementChild.cloneNode();
+    if (t.dataset.full) el.src = t.dataset.full;
+    zoom.replaceChildren(el);
+    zoom.showModal();
+  }));
+</script>
+</body>
+</html>
