@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,11 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root { --text: #222; --muted: #666; --link: #1772d0; --hover: #f09228; --bg: #fff; --line: #e5e5e5; --box: #f3f7fc; color-scheme: light; }
-    /* dark: follows the OS unless the toggle picked a theme (data-theme on <html>) */
+    /* dark by default (data-theme on <html>); the toggle switches and remembers */
     :root[data-theme="dark"] { --text: #ddd; --muted: #999; --link: #5ea9f2; --bg: #161616; --line: #333; --box: #1c232d; color-scheme: dark; }
-    @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) { --text: #ddd; --muted: #999; --link: #5ea9f2; --bg: #161616; --line: #333; --box: #1c232d; color-scheme: dark; }
-    }
     .btn { background: none; border: 1px solid var(--line); border-radius: 6px; color: var(--text); font: inherit; font-size: 14px; padding: 2px 10px; cursor: pointer; }
     .btn:hover { border-color: var(--link); color: var(--text); }
     .btn[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
@@ -528,7 +525,7 @@
 
   // Light/dark toggle: flips whatever is showing now and remembers the choice.
   const themeBtn = document.getElementById('theme');
-  const isDark = () => (document.documentElement.dataset.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark';
+  const isDark = () => document.documentElement.dataset.theme === 'dark';
   const label = () => themeBtn.textContent = isDark() ? '☀ Light' : '☾ Dark';
   label();
   themeBtn.addEventListener('click', () => {
