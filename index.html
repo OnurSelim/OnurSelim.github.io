@@ -8,14 +8,14 @@
   <script>try { if (localStorage.theme) document.documentElement.dataset.theme = localStorage.theme; } catch (e) {}</script>
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    :root { --text: #222; --muted: #666; --link: #1772d0; --hover: #f09228; --bg: #fff; --line: #e5e5e5; --hl: #ffffd0; --box: #f3f7fc; color-scheme: light; }
+    :root { --text: #222; --muted: #666; --link: #1772d0; --hover: #f09228; --bg: #fff; --line: #e5e5e5; --box: #f3f7fc; color-scheme: light; }
     /* dark: follows the OS unless the toggle picked a theme (data-theme on <html>) */
-    :root[data-theme="dark"] { --text: #ddd; --muted: #999; --link: #5ea9f2; --bg: #161616; --line: #333; --hl: #2a2a1c; --box: #1c232d; color-scheme: dark; }
+    :root[data-theme="dark"] { --text: #ddd; --muted: #999; --link: #5ea9f2; --bg: #161616; --line: #333; --box: #1c232d; color-scheme: dark; }
     @media (prefers-color-scheme: dark) {
-      :root:not([data-theme="light"]) { --text: #ddd; --muted: #999; --link: #5ea9f2; --bg: #161616; --line: #333; --hl: #2a2a1c; --box: #1c232d; color-scheme: dark; }
+      :root:not([data-theme="light"]) { --text: #ddd; --muted: #999; --link: #5ea9f2; --bg: #161616; --line: #333; --box: #1c232d; color-scheme: dark; }
     }
     .btn { background: none; border: 1px solid var(--line); border-radius: 6px; color: var(--text); font: inherit; font-size: 14px; padding: 2px 10px; cursor: pointer; }
-    .btn:hover { border-color: var(--link); }
+    .btn:hover { border-color: var(--link); color: var(--text); }
     .btn[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
     body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.6 Lato, Verdana, Helvetica, sans-serif; }
     main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 48px; }
@@ -30,7 +30,7 @@
     .about h1, .about .tagline { text-align: center; }
     .about h2 { margin-top: 16px; }
     .side { text-align: center; padding-top: 24px; }
-    .side img { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; }
+    .side img { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; cursor: zoom-in; }
     .links { text-align: center; margin-top: 12px; }
     .links a { margin: 0 6px; }
     .entry { display: flex; gap: 16px; margin-bottom: 18px; }
@@ -38,27 +38,25 @@
     .entry p { margin: 2px 0; }
     .entry ul { margin: 4px 0; padding-left: 18px; }
     .muted { color: var(--muted); }
-    .pub { display: flex; gap: 20px; align-items: flex-start; padding: 10px; margin: 0 -10px 12px; border-radius: 6px; }
-    .pub.hl { background: var(--hl); }   /* first-author papers */
+    .pub { display: flex; gap: 20px; align-items: flex-start; padding: 8px 10px; margin: 0 -10px 4px; border-radius: 6px; transition: background .2s; }
     /* Every teaser sits in the same 4:3 white frame; the figure is scaled to fit inside it
        (object-fit: contain), so wide and tall figures keep their own aspect ratio. Click to enlarge. */
     .teaser {
       flex: 0 0 240px; aspect-ratio: 4 / 3; box-sizing: border-box; padding: 6px;
       display: flex; align-items: center; justify-content: center;
       background: #fff; border: 1px solid var(--line); border-radius: 6px; cursor: zoom-in;
+      transition: flex-basis .2s;
     }
     .teaser img, .teaser video { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
     .tldr { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
-    /* TL;DR appears on hover/focus; touch screens (no hover) always show it */
+    /* Papers stay compact (small figure, no TL;DR) and expand on hover/focus; touch screens (no hover) always show them expanded */
     @media (hover: hover) {
-      .pub:not(:hover):not(:focus-within):not(:target) .tldr { display: none; }
+      .pub:not(:hover):not(:has(:focus-visible)) .tldr { display: none; }
+      .pub:is(:hover, :has(:focus-visible)) { background: var(--box); }
     }
-    /* Research statement: collapsed by default, like a fold-out box */
-    details.rs > summary { list-style: none; display: flex; justify-content: space-between; align-items: center; margin-top: 32px; padding: 8px 14px; background: var(--box); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
-    details.rs > summary::-webkit-details-marker { display: none; }
-    details.rs > summary h2 { margin: 0; padding: 0; border: 0; }
-    details.rs > summary::after { content: "▸ Click to expand"; font-size: 13px; color: #fff; background: var(--link); border-radius: 4px; padding: 3px 10px; }
-    details.rs[open] > summary::after { content: "▾ Click to collapse"; }
+    @media (hover: hover) and (min-width: 601px) {
+      .pub:not(:hover):not(:has(:focus-visible)) .teaser { flex-basis: 110px; }
+    }
     /* Highlights carousel: three cards per view, arrows on the sides */
     .carousel { position: relative; padding: 0 44px; }
     .carousel > .btn { position: absolute; top: 40%; width: 32px; height: 32px; padding: 0; border-radius: 50%; }
@@ -72,13 +70,24 @@
     .card .thumb img { max-width: 100%; max-height: 100%; object-fit: contain; }
     .card b { display: block; color: var(--text); font-size: 15px; }
     .card .venue { display: block; color: var(--link); font-weight: 700; }
+    .card > .award { display: block; }
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
     .two-col .entry .date { flex-basis: 100px; }
-    .pub:target { outline: 2px solid var(--link); }   /* the paper a highlight card jumped to */
+    .pub:target { animation: flash 2s; }   /* briefly mark the paper a highlight card jumped to */
+    @keyframes flash { from { background: var(--box); outline: 2px solid var(--link); } }
     .filters { display: flex; gap: 8px; margin: 12px 0 4px; }
-    #publications.first-only .pub:not(.hl) { display: none; }
+    #publications[data-show="first"] .pub:not(.hl), #publications[data-show="core"] .pub:not(.hl, .core) { display: none; }
+    /* "All papers": plain numbered list, no figures or TL;DRs, a rule between papers */
+    #publications[data-show="all"] h3 { counter-reset: n; }
+    #publications[data-show="all"] :is(.teaser, .tldr) { display: none; }
+    #publications[data-show="all"] .pub { flex-direction: row; gap: 8px; margin: 0; padding: 8px 0; border-radius: 0; border-bottom: 1px solid var(--line); background: none; }
+    #publications[data-show="all"] .pub::before { counter-increment: n; content: "[C" counter(n) "]"; flex: 0 0 2.8em; color: var(--muted); }
+    #publications[data-show="all"] .j ~ .pub::before { content: "[J" counter(n) "]"; }
+    h2 .icon { color: var(--muted); margin-left: 6px; }
+    h2 .icon:hover { color: var(--link); }
+    h2 .icon svg { width: 18px; height: 18px; fill: currentColor; vertical-align: -2px; }
     /* figures have white backgrounds; keep them on a white card in dark mode too */
-    .highlight video, figure video {
+    .rs-media video {
       display: block; width: 100%; height: auto; background: #fff;
       border: 1px solid var(--line); border-radius: 6px;
     }
@@ -86,14 +95,13 @@
     dialog.zoom::backdrop { background: rgba(0, 0, 0, .75); }
     dialog.zoom > * { display: block; max-width: calc(92vw - 24px); max-height: calc(92vh - 24px); }
     dialog.zoom > video { width: 1100px; height: auto; }   /* videos report no size until loaded; give them a target width */
-    figure { margin: 24px 0 0; }
-    figcaption { font-size: 14px; color: var(--muted); margin-top: 8px; }
-    .highlight { display: flex; gap: 24px; align-items: center; }
-    .highlight video { flex: 0 0 300px; width: 300px; }
+    /* Research statement: fiducial walkthrough, then the thorax; widths follow the aspect ratios (2.5:1, 1.35:1) so both are the same height */
+    .rs-media { display: flex; gap: 16px; align-items: flex-start; }
+    .rs-media video { flex: 2.5 1 0; min-width: 0; box-sizing: border-box; cursor: zoom-in; }
+    .rs-media video + video { flex: 1.348 1 0; }
     .credit { font-size: 12px; }
     .papertitle { font-weight: 700; }
     .award { color: #c0392b; font-weight: 700; }
-    .hint { font-size: 12px; color: var(--muted); }
     ul.news { list-style: none; max-height: 10em; overflow-y: auto; margin: 0; padding: 0 4px; }
     ul.news li { display: grid; grid-template-columns: 100px 1fr; gap: 12px; margin-bottom: 6px; }
     ul.news .date { color: var(--muted); }
@@ -102,7 +110,8 @@
       .card { flex-basis: 80%; }
     }
     @media (max-width: 600px) {
-      .entry, .pub, .highlight { flex-direction: column; gap: 8px; }      .teaser, .highlight video { flex: none; width: 100%; max-width: 400px; }
+      .entry, .pub, .rs-media { flex-direction: column; gap: 8px; }
+      .teaser { flex: none; width: 100%; max-width: 400px; }
       .teaser { aspect-ratio: auto; }   /* stacked on phones: let the figure use its natural height */
       .entry .date { flex: none; }
     }
@@ -150,18 +159,17 @@
     </div>
   </section>
 
-  <details class="rs" id="research">
-    <summary><h2>Research statement</h2></summary>
-    <div class="highlight">
+  <section id="research">
+    <h2>Research statement</h2>
+    <div class="rs-media">
+      <video src="assets/videos/fiducials.mp4" poster="assets/videos/fiducials.webp" autoplay muted loop playsinline aria-label="One heartbeat in ECG, SCG and PPG, step by step: the R peak, aortic valve opening (AO), PPG foot and aortic valve closure (AC) are marked as the valves open and close, followed by continuous recordings with RR intervals"></video>
       <video src="assets/videos/thorax.mp4" poster="assets/videos/thorax.webp" autoplay muted loop playsinline aria-label="Animated thorax: the beating heart sends vibrations to wearable sensors on the sternum, pectoral and clavicle"></video>
-      <div>
-        <p class="muted credit">
+    </div>
+    <p class="muted credit">
           Heart: <a href="https://sketchfab.com/3d-models/beating-heart-d9845afb1ee64ad094adc96320c67d98">“Beating Heart”</a> by jalmer, CC BY 4.0.
           Anatomy: <a href="https://lifesciencedb.jp/bp3d/">BodyParts3D</a>, © The Database Center for Life Science, CC BY 4.0.
-        </p>
-      </div>
-    </div>
-  </details>
+    </p>
+  </section>
 
   <section id="highlights">
     <h2>Research highlights</h2>
@@ -171,10 +179,10 @@
     <div class="cards">
       <a class="card" href="#pcdfm"><span class="thumb"><img src="assets/teasers/physics_fm.webp" alt="" loading="lazy"></span><b>Physics-Constrained Direct Flow Matching</b><span class="venue">ICLR 2027, under review</span>Enforces a known physiological law on the flow-matching vector field at every flow time.</a>
       <a class="card" href="#cgfm"><span class="thumb"><img src="assets/teasers/cylindrical_fm.webp" alt="" loading="lazy"></span><b>Cylindrical Geodesic Flow Matching</b><span class="venue">NeurIPS 2026</span>Translates PPG and SCG across sensor locations along a phase–amplitude geodesic.</a>
-      <a class="card" href="#g2g"><span class="thumb"><img src="assets/teasers/guideline2graph.webp" alt="" loading="lazy"></span><b>Guideline2Graph</b><span class="venue">CVPR 2026 Workshop · <span class="award">Best Presentation</span></span>Turns clinical practice guidelines into executable decision graphs.</a>
+      <a class="card" href="#g2g"><span class="thumb"><img src="assets/teasers/guideline2graph.webp" alt="" loading="lazy"></span><span class="award">Best Presentation</span><b>Guideline2Graph</b><span class="venue">CVPR 2026 Workshop</span>Turns clinical practice guidelines into executable decision graphs.</a>
       <a class="card" href="#stht"><span class="thumb"><img src="assets/teasers/stht_poster.webp" alt="" loading="lazy"></span><b>Stabilized Hilbert Transform</b><span class="venue">Computers in Biology and Medicine, under review</span>Repairs unstable Hilbert phase for robust instantaneous phase estimation.</a>
       <a class="card" href="#bp"><span class="thumb"><img src="assets/teasers/bp_reactivity.webp" alt="" loading="lazy"></span><b>Post-MI Blood Pressure Reactivity</b><span class="venue">ACM Trans. Comput. Healthcare, under review</span>Flags abnormal stress-induced blood pressure reactivity from a multimodal wearable patch.</a>
-      <a class="card" href="#cardiac-output"><span class="thumb"><img src="assets/teasers/cardiac_output.webp" alt="" loading="lazy"></span><b>Non-Invasive Cardiac Output Monitoring</b><span class="venue">BSN 2025 · <span class="award">Best Paper</span></span>Calibration-free stroke volume and cardiac output from wearable ECG, SCG and PPG.</a>
+      <a class="card" href="#cardiac-output"><span class="thumb"><img src="assets/teasers/cardiac_output.webp" alt="" loading="lazy"></span><span class="award">Best Paper</span><b>Non-Invasive Cardiac Output Monitoring</b><span class="venue">BSN 2025</span>Calibration-free stroke volume and cardiac output from wearable ECG, SCG and PPG.</a>
       <a class="card" href="#hikaf"><span class="thumb"><img src="assets/teasers/hikaf.webp" alt="" loading="lazy"></span><b>Heart-Rate-Informed Kalman Filter</b><span class="venue">Computers in Biology and Medicine, 2025</span>Detects aortic valve events in noisy seismocardiograms.</a>
       <a class="card" href="#knee"><span class="thumb"><img src="assets/teasers/knee_oa.webp" alt="" loading="lazy"></span><b>Knee Acoustic Emissions for Osteoarthritis</b><span class="venue">npj Biomedical Innovations, 2025</span>Interpretable transfer learning on knee sounds to classify osteoarthritis.</a>
       <a class="card" href="#core-ppg"><span class="thumb"><img src="assets/teasers/core_ppg.webp" alt="" loading="lazy"></span><b>Core-Body Photoplethysmography</b><span class="venue">IEEE Sensors Journal, 2025</span>How sternum and back PPG react to posture and breathing, compared with the finger.</a>
@@ -185,20 +193,20 @@
   </section>
 
   <section id="news">
-    <h2>News <span class="hint">— scroll down for more ↓</span></h2>
+    <h2>News</h2>
     <!-- Newest first. Copy a line to add one. The list scrolls once it is taller than ~6 lines. -->
     <ul class="news">
-      <li><span class="date">2026</span><span>Real-time wearable SCG fiducial point detection paper accepted at IEEE Sensors 2026.</span></li>
-      <li><span class="date">2026</span><span><em>Cylindrical Geodesic Flow Matching</em> accepted at NeurIPS 2026.</span></li>
-      <li><span class="date">Summer 2026</span><span>Data Science Intern at <a href="https://cardiosense.com/">Cardiosense</a>, Chicago.</span></li>
-      <li><span class="date">2026</span><span><em>Guideline2Graph</em> received the <span class="award">Best Presentation</span> award at the CVPR 2026 Medical Reasoning with VLM Foundation Models Workshop.</span></li>
-      <li><span class="date">2025</span><span>Three papers at BSN 2025; the non-invasive cardiac output monitoring paper received the <span class="award">Best Paper</span> award.</span></li>
-      <li><span class="date">2025</span><span>Knee osteoarthritis classification paper published in <em>npj Biomedical Innovations</em>.</span></li>
-      <li><span class="date">2025</span><span>SCG-PHD, a seismocardiography pig hypovolemia dataset, published in <em>Nature Scientific Data</em>.</span></li>
-      <li><span class="date">2025</span><span>Heart-rate-informed Kalman filter paper published in <em>Computers in Biology and Medicine</em>.</span></li>
-      <li><span class="date">2025</span><span>Core-body PPG paper published in <em>IEEE Sensors Journal</em>.</span></li>
-      <li><span class="date">2023</span><span><em>E-VFIA</em> published at ICRA 2023.</span></li>
-      <li><span class="date">2023</span><span>Joined <a href="https://www.metadialog.com/">MetaDialog</a> as a Research Engineer.</span></li>
+      <li><span class="date">Sep 2026</span><span><em>Cylindrical Geodesic Flow Matching</em> accepted at NeurIPS 2026.</span></li>
+      <li><span class="date">Aug 2026</span><span>Real-time wearable SCG fiducial point detection paper accepted at IEEE Sensors 2026.</span></li>
+      <li><span class="date">Jun 2026</span><span><em>Guideline2Graph</em> received the <span class="award">Best Presentation</span> award at the CVPR 2026 Medical Reasoning with VLM Foundation Models Workshop.</span></li>
+      <li><span class="date">May 2026</span><span>Data Science Intern at <a href="https://cardiosense.com/">Cardiosense</a>, Chicago.</span></li>
+      <li><span class="date">Nov 2025</span><span>Three papers at BSN 2025; the non-invasive cardiac output monitoring paper received the <span class="award">Best Paper</span> award.</span></li>
+      <li><span class="date">Aug 2025</span><span>Core-body PPG paper published in <em>IEEE Sensors Journal</em>.</span></li>
+      <li><span class="date">Jul 2025</span><span>Knee osteoarthritis classification paper published in <em>npj Biomedical Innovations</em>.</span></li>
+      <li><span class="date">Jun 2025</span><span>SCG-PHD, a seismocardiography pig hypovolemia dataset, published in <em>Nature Scientific Data</em>.</span></li>
+      <li><span class="date">Jun 2025</span><span>Heart-rate-informed Kalman filter paper published in <em>Computers in Biology and Medicine</em>.</span></li>
+      <li><span class="date">Jun 2023</span><span>Joined <a href="https://www.metadialog.com/">MetaDialog</a> as a Research Engineer.</span></li>
+      <li><span class="date">May 2023</span><span><em>E-VFIA</em> published at ICRA 2023.</span></li>
       <li><span class="date">Dec 2022</span><span>Started my Ph.D. at Georgia Tech in the <a href="https://irl.gatech.edu/">Inan Research Lab</a>, with the Georgia Tech ECE Fellowship.</span></li>
       <li><span class="date">Aug 2022</span><span>Completed my M.S. at METU.</span></li>
     </ul>
@@ -278,14 +286,18 @@
   </section>
   </div>
 
-  <section id="publications">
-    <h2>Publications</h2>
-    <p class="muted">Papers where I am first or second author. * equal contribution. Highlighted: first-author papers. Full list on <a href="https://scholar.google.com/citations?user=cGBKVNIAAAAJ">Google Scholar</a>.</p>
+  <section id="publications" data-show="core">
+    <h2>Publications
+      <a class="icon" href="https://scholar.google.com/citations?user=cGBKVNIAAAAJ" title="Google Scholar" aria-label="Google Scholar"><svg viewBox="0 0 24 24"><path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/></svg></a>
+      <a class="icon" href="https://orcid.org/0000-0003-4159-9972" title="ORCID" aria-label="ORCID"><svg viewBox="0 0 24 24"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-2.016-1.284-3.722-4.097-3.722h-2.222z"/></svg></a>
+    </h2>
     <div class="filters">
-      <button class="btn" type="button" data-filter="first" aria-pressed="false">First / co-first author</button>
-      <button class="btn" type="button" data-filter="all" aria-pressed="true">All publications</button>
+      <button class="btn" type="button" data-filter="first" aria-pressed="false">First author</button>
+      <button class="btn" type="button" data-filter="core" aria-pressed="true">First / second author</button>
+      <button class="btn" type="button" data-filter="all" aria-pressed="false">All papers</button>
     </div>
-    <!-- Copy a .pub block to add a paper. Add class "hl" to highlight it.
+    <!-- Copy a .pub block to add a paper. Class "hl" = first/co-first author, "core" = second author,
+         neither = shown only under "All papers".
          Teaser: <img> or <video autoplay muted loop playsinline> inside <div class="teaser">; omit the div for text-only. -->
 
     <h3>Conference papers</h3>
@@ -300,12 +312,21 @@
       </div>
     </div>
 
+    <div class="pub" id="sensors26">
+      <div>
+        <span class="papertitle">Implementation and Validation of a Real-Time Algorithm for Wearable Seismocardiogram Fiducial Point Detection</span><br>
+        Farhan N. Rahman, Maako Fangajei, Afra Nawar, <strong>Onur Selim Kilic</strong>, Cem Okan Yaldiz, Jin-Oh Hahn, Omer T. Inan<br>
+        <em>IEEE Sensors 2026</em>
+      </div>
+    </div>
+
     <div class="pub hl" id="cgfm">
       <div class="teaser" data-full="assets/teasers/cylindrical_fm_full.webp"><img src="assets/teasers/cylindrical_fm.webp" alt="Affine, naive Hilbert and cylindrical geodesic paths from source to target signal over flow time" loading="lazy"></div>
       <div>
-        <span class="papertitle">Cylindrical Geodesic Flow Matching for Quasiperiodic Physiological Signal Transformation</span><br>
+        <a class="papertitle" href="https://arxiv.org/abs/2610.08510">Cylindrical Geodesic Flow Matching for Quasiperiodic Physiological Signal Transformation</a><br>
         <strong>Onur Selim Kilic</strong>, Afra Nawar, Cem O. Yaldiz, Michael J. Cho, Ahmet Rasim Emirdagi, Demet Tangolar, Amirali Aghazadeh, Amit J. Shah, Omer T. Inan<br>
-        <em>NeurIPS 2026</em>
+        <em>NeurIPS 2026</em><br>
+        <a href="https://github.com/OnurSelim/FM-CG">code</a>
         <p class="tldr">Translates quasiperiodic signals such as PPG and SCG across sensing locations by flow matching along a closed-form geodesic on the phase–amplitude cylinder instead of the standard affine path.</p>
       </div>
     </div>
@@ -313,15 +334,23 @@
     <div class="pub hl" id="g2g">
       <div class="teaser" data-full="assets/teasers/guideline2graph_full.webp"><img src="assets/teasers/guideline2graph.webp" alt="Traditional practice and one-shot summarization compared with the proposed chunk, generate and aggregate pipeline" loading="lazy"></div>
       <div>
-        <a class="papertitle" href="https://arxiv.org/abs/2604.02477">Guideline2Graph: Profile-Aware Multimodal Parsing for Executable Clinical Decision Graphs</a><br>
+        <span class="award">[Best Presentation]</span> <a class="papertitle" href="https://arxiv.org/abs/2604.02477">Guideline2Graph: Profile-Aware Multimodal Parsing for Executable Clinical Decision Graphs</a><br>
         <strong>Onur Selim Kilic</strong>, Yeti Z. Gurbuz, Cem O. Yaldiz, Afra Nawar, Etrit Haxholli, Ogul Can, Eli Waxman<br>
-        <em>CVPR 2026 Workshop on Medical Reasoning with Vision-Language Foundation Models</em> · <span class="award">Best Presentation</span><br>
-        <a href="https://arxiv.org/abs/2604.02477">arXiv</a>
+        <em>CVPR 2026 Workshop on Medical Reasoning with Vision-Language Foundation Models</em>
         <p class="tldr">Turns full clinical practice guidelines into executable decision graphs through topology-aware chunking, interface-constrained graph generation and provenance-preserving aggregation.</p>
       </div>
     </div>
 
-    <div class="pub">
+    <div class="pub" id="tda">
+      <div>
+        <a class="papertitle" href="https://openreview.net/forum?id=8a5ZWxHbN7">Time-Delay Invariance of Persistence Diagrams for Seismocardiogram Signal Quality Assessment</a><br>
+        Afra Nawar, Farhan N. Rahman, <strong>Onur Selim Kilic</strong>, Amit J. Shah, Omer T. Inan<br>
+        <em>BSN 2025</em>
+      </div>
+    </div>
+
+    <div class="pub core" id="forecast">
+      <div class="teaser" data-full="assets/teasers/forecast_full.webp"><img src="assets/teasers/forecast.webp" alt="Pipeline: ECG, SCG and PPG features from humans and pigs feed an autoregressive forecaster; Q and R are tuned on training subjects by hyperparameter search, or updated adaptively on the test subject alone" loading="lazy"></div>
       <div>
         <a class="papertitle" href="https://openreview.net/forum?id=ziFNeJYT1D">Short-Term Physiological Forecasting with Adaptive Covariance Matrix Estimation</a><br>
         Cem O. Yaldiz, <strong>Onur Selim Kilic</strong>, Omer T. Inan<br>
@@ -330,12 +359,12 @@
       </div>
     </div>
 
-    <div class="pub" id="cardiac-output">
+    <div class="pub core" id="cardiac-output">
       <div class="teaser" data-full="assets/teasers/cardiac_output_full.webp"><img src="assets/teasers/cardiac_output.webp" alt="Pipeline: cardiac output windows across baseline, hypovolemia and resuscitation label stroke volume; ECG, PPG, SCG and cross-domain features feed a machine learning model that estimates stroke volume and cardiac output" loading="lazy"></div>
       <div>
-        <a class="papertitle" href="https://openreview.net/forum?id=3oVBk5Q3RP">Enabling Intelligent Resuscitation: Non-Invasive Cardiac Output Monitoring via Physiological Sensing and Machine Learning</a><br>
+        <span class="award">[Best Paper]</span> <a class="papertitle" href="https://openreview.net/forum?id=3oVBk5Q3RP">Enabling Intelligent Resuscitation: Non-Invasive Cardiac Output Monitoring via Physiological Sensing and Machine Learning</a><br>
         Demet Tangolar, <strong>Onur Selim Kilic</strong>, Samuel Liu, Cem O. Yaldiz, Jacob P. Kimball, Omer T. Inan<br>
-        <em>BSN 2025</em> · <span class="award">Best Paper</span>
+        <em>BSN 2025</em>
         <p class="tldr">Estimates stroke volume and cardiac output from wearable ECG, SCG and PPG without baseline calibration, in a porcine hemorrhage and resuscitation model.</p>
       </div>
     </div>
@@ -346,12 +375,12 @@
         <a class="papertitle" href="https://arxiv.org/abs/2209.09359">E-VFIA: Event-Based Video Frame Interpolation with Attention</a><br>
         <strong>Onur Selim Kilic</strong>, Ahmet Akman, A. Aydin Alatan<br>
         <em>ICRA 2023</em><br>
-        <a href="https://arxiv.org/abs/2209.09359">arXiv</a> / <a href="https://github.com/ahmetakman/E-VFIA">code</a>
+        <a href="https://github.com/ahmetakman/E-VFIA">code</a>
         <p class="tldr">A lightweight kernel-based interpolator that fuses event and RGB features with deformable convolutions and encodes events with multi-head self-attention.</p>
       </div>
     </div>
 
-    <h3>Journal articles</h3>
+    <h3 class="j">Journal articles</h3>
 
     <div class="pub hl" id="stht">
       <div class="teaser" data-full="assets/teasers/stht_full.mp4"><video src="assets/teasers/stht.mp4" poster="assets/teasers/stht_poster.webp" autoplay muted loop playsinline aria-label="StHT walkthrough: a spike in the Hilbert phase increment is located, the unstable region and extension zones are marked, and the repaired phase and signal are shown"></video></div>
@@ -363,12 +392,68 @@
       </div>
     </div>
 
-    <div class="pub" id="bp">
+    <div class="pub" id="lcos">
+      <div>
+        <span class="papertitle">Signal-Quality-Aware Fusion of Physiological Foundation Models for Low Cardiac Output Syndrome Detection After Congenital Heart Disease Surgery</span><br>
+        Ahmet Rasim Emirdagi, Zeineb Bouzid, Cem Okan Yaldiz, Darpit Dave, Shruti Jeyaraman, Hyonyoung Shin, Jeffrey Liu, <strong>Onur Selim Kilic</strong>, Izzet T. Akbasli, Orkun Baloglu, Anirudha Das, Kristopher Kormos, Bradley S. Marino, Catherine K. Allan, Hani Najm, Nanshu Lu, Omer T. Inan, Animesh Tandon<br>
+        <em>Nature Communications</em>, under review
+      </div>
+    </div>
+
+    <div class="pub" id="athletes">
+      <div>
+        <span class="papertitle">Characterizing Heterogeneous Lower-Limb Health States in Collegiate Athletes Using Multimodal Wearable Sensing</span><br>
+        Holland E. Ernst, Ahmet Rasim Emirdagi, Vikram Abbaraju, Cem O. Yaldiz, <strong>Onur Selim Kilic</strong>, Samer Mabrouk, Emma Hixenbaugh, Brian Hack, Abbey Green, Christopher J. Nichols, Quentin Goossens, Aprameya Satish, Brian King, Mindy Millard-Stafford, Alessio Medda, Omer T. Inan<br>
+        <em>npj Digital Medicine</em>, under review
+      </div>
+    </div>
+
+    <div class="pub" id="mtl">
+      <div>
+        <span class="papertitle">Multi-Task Learning Based Estimation of Hemodynamic Parameters from Cardiovascular Signals Measured with a Wearable Device during Hemorrhage</span><br>
+        Demet Tangolar, Cem O. Yaldiz, Sina Masoumi Shahrbabak, Yuanyuan Zhou, <strong>Onur Selim Kilic</strong>, Gabriela I. Cestero, Parham Rezaei, John Vandenberge, Nancy Kim, Carl A. Johnson Jr., Douglas Tran, Randy Perez, Donghyeon Kim, Nicholas Burch, Rishwanth Vetri, Zeineb Bouzid, Rayan Bahrami, Zhongjun J. Wu, Jin-Oh Hahn, Omer T. Inan<br>
+        <em>ACM Transactions on Computing for Healthcare</em>, under review
+      </div>
+    </div>
+
+    <div class="pub" id="ssl">
+      <div>
+        <span class="papertitle">Multi-Modal Self-Supervised Learning of Signal Dynamics Enables Scalable Blood Volume Assessment in Hypovolemia</span><br>
+        Cem O. Yaldiz, Demet Tangolar, <strong>Onur Selim Kilic</strong>, Afra Nawar, Ahmet Rasim Emirdagi, Gabriela I. Cestero, Zeineb Bouzid, Harish K. Haresamudram, Zhongjun J. Wu, Thomas Ploetz, Jin-Oh Hahn, Omer T. Inan<br>
+        <em>IEEE Transactions on Biomedical Engineering</em>, under review
+      </div>
+    </div>
+
+    <div class="pub core" id="bp">
       <div class="teaser" data-full="assets/teasers/bp_reactivity_full.webp"><img src="assets/teasers/bp_reactivity.webp" alt="Study overview: post-myocardial-infarction participants under a public speaking stressor; ECG, SCG and PCG features from a multimodal patch classify blood pressure reactivity" loading="lazy"></div>
       <div>
         <span class="papertitle">Automated Detection of Abnormal Stress-Induced Blood Pressure Reactivity in Post-Myocardial-Infarction Individuals Using Multimodal Wearable Signals</span><br>
         Afra Nawar, <strong>Onur Selim Kilic</strong>, Cem O. Yaldiz, Farhan N. Rahman, George Haddad, Lewam Stefanos, Tatum Roberts, Jeffery Osei, Kara Suvada, Abdulkareem Murtala, Lucy Shallenberger, Arshed Quyyumi, Kasra Moazzami, Viola Vaccarino, Omer T. Inan, Amit J. Shah<br>
         <em>ACM Transactions on Computing for Healthcare</em>, under review
+      </div>
+    </div>
+
+    <div class="pub" id="kneems">
+      <div>
+        <a class="papertitle" href="https://doi.org/10.1109/JTEHM.2026.3721498">KneeMS to Monitor Knee Acoustic Emissions for Juvenile Idiopathic Arthritis</a><br>
+        Ruchik Mishra, Quentin Goossens, Christopher J. Nichols, Ahmet Rasim Emirdagi, Chuoqi Chen, <strong>Onur Selim Kilic</strong>, Mohammad Nikbakht, Prabhkirat S. Bindra, Catherine Yang, Cate Garretson, Lori Ponder, Sampath Prahalad, Omer T. Inan<br>
+        <em>IEEE Journal of Translational Engineering in Health and Medicine</em>, 2025
+      </div>
+    </div>
+
+    <div class="pub" id="effscg">
+      <div>
+        <a class="papertitle" href="https://doi.org/10.1109/JBHI.2026.3718375">EffSCG: An Efficient Framework for Real-Time Seismocardiogram Denoising on Resource-Constrained Edge Devices</a><br>
+        Ahmet Rasim Emirdagi, Cem O. Yaldiz, <strong>Onur Selim Kilic</strong>, Michael J. Cho, Omer T. Inan<br>
+        <em>IEEE Journal of Biomedical and Health Informatics</em>, 2025
+      </div>
+    </div>
+
+    <div class="pub" id="transfer">
+      <div>
+        <a class="papertitle" href="https://www.sciencedirect.com/science/article/pii/S0010482526002350">Establishing Generalizability of Wearable-Enabled Blood Volume Decompensation Status Estimation Algorithms Using Transfer Learning</a><br>
+        Demet Tangolar, Zeineb Bouzid, Cem O. Yaldiz, <strong>Onur Selim Kilic</strong>, Jacob P. Kimball, Parham Rezaei, Sina Masoumi Shahrbabak, John Vandenberge, Yuanyuan Zhou, Nancy Kim, Douglas Tran, Randy Perez, Donghyeon Kim, Nicholas Burch, Rayan Bahrami, Zhongjun J. Wu, Jin-Oh Hahn, Omer T. Inan<br>
+        <em>Computers in Biology and Medicine</em>, 2025
       </div>
     </div>
 
@@ -382,7 +467,31 @@
       </div>
     </div>
 
-    <div class="pub" id="core-ppg">
+    <div class="pub" id="scg-phd">
+      <div>
+        <a class="papertitle" href="https://www.nature.com/articles/s41597-026-06733-2">SCG-PHD: Seismocardiography Pig Hypovolemia Dataset for Signal Quality Indexing and Validated Cardiac Timings</a><br>
+        Michael J. Cho, Cem O. Yaldiz, Afra Nawar, Vikram Abbaraju, Ryan C. Emadi, <strong>Onur Selim Kilic</strong>, Zeineb Bouzid, Farhan N. Rahman, Chuoqi Chen, Jacob M. Cook, Ahmet Rasim Emirdagi, Roshan L. Saigal, Mickey Paulus, Omer T. Inan<br>
+        <em>Scientific Data</em>, 2025
+      </div>
+    </div>
+
+    <div class="pub" id="stress">
+      <div>
+        <a class="papertitle" href="https://www.sciencedirect.com/science/article/pii/S095656632600093X">A Wearable Closed-Loop System for Acute Stress Monitoring and Mitigation through Transcutaneous Median Nerve Stimulation</a><br>
+        Farhan N. Rahman, Prabhkirat S. Bindra, Afra Nawar, H. Trask Crane, Jesus Antonio Sanchez-Perez, John A. Berkebile, <strong>Onur Selim Kilic</strong>, Chuoqi Chen, Vikram Abbaraju, Christopher J. Nichols, Jacob M. Cook, Samer Mabrouk, Asim H. Gazi, Jin-Oh Hahn, Omer T. Inan<br>
+        <em>Biosensors and Bioelectronics</em>, 2025
+      </div>
+    </div>
+
+    <div class="pub" id="lifevest">
+      <div>
+        <a class="papertitle" href="https://ieeexplore.ieee.org/abstract/document/11202337">Life-Vest Embedded Ballistocardiogram Measurement System for Underwater Heart Rate and Heart Rate Variability Monitoring</a><br>
+        Chuoqi Chen, Zeineb Bouzid, Gabriela I. Cestero, Jacob M. Cook, Mohammad Nikbakht, Nicholas Y. Harris, Afra Nawar, <strong>Onur Selim Kilic</strong>, Jin-Oh Hahn, Omer T. Inan<br>
+        <em>IEEE Sensors Journal</em>, 2025
+      </div>
+    </div>
+
+    <div class="pub core" id="core-ppg">
       <div class="teaser" data-full="assets/teasers/core_ppg_full.webp"><img src="assets/teasers/core_ppg.webp" alt="Concept: core-body PPG on the sternum alongside peripheral finger PPG, studied across postures and breathing in ambulatory monitoring" loading="lazy"></div>
       <div>
         <a class="papertitle" href="https://ieeexplore.ieee.org/document/11123627">Elucidating the Reactivity of Reflectance-Based Core Body Photoplethysmogram to Posture and Respiratory Changes</a><br>
@@ -457,27 +566,27 @@
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   setInterval(() => { if (!still && !document.hidden && !carousel.matches(':hover, :focus-within')) step(1); }, 4500);
 
-  // Publication filter: first/co-first author only (the "hl" papers) or all.
+  // Publication filter: first author ("hl"), first or second author ("hl" + "core"), or every paper.
   const pubs = document.getElementById('publications');
   const setFilter = f => {
-    pubs.classList.toggle('first-only', f === 'first');
+    pubs.dataset.show = f;
     pubs.querySelectorAll('[data-filter]').forEach(b => b.setAttribute('aria-pressed', b.dataset.filter === f));
   };
   pubs.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => setFilter(b.dataset.filter)));
   // A link to a paper the filter is hiding shows all papers again.
   addEventListener('hashchange', () => {
     const t = document.querySelector(location.hash || null);
-    if (t && t.matches('.pub:not(.hl)')) { setFilter('all'); t.scrollIntoView(); }
+    if (t && t.matches('.pub') && !t.offsetParent) { setFilter('all'); t.scrollIntoView(); }
   });
 
-  // Click a teaser to see the figure large; click anywhere or press Esc to close.
+  // Click a teaser, the profile photo or a research statement video to see it large; click anywhere or press Esc to close.
   const zoom = document.createElement('dialog');
   zoom.className = 'zoom';
   document.body.append(zoom);
   zoom.addEventListener('click', () => zoom.close());
-  document.querySelectorAll('.teaser').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.teaser, .side img, #research video').forEach(t => t.addEventListener('click', () => {
     // data-full on the teaser = high-resolution image for the enlarged view
-    const el = t.firstElementChild.cloneNode();
+    const el = (t.firstElementChild || t).cloneNode();
     if (t.dataset.full) el.src = t.dataset.full;
     zoom.replaceChildren(el);
     zoom.showModal();
