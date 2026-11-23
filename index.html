@@ -84,19 +84,17 @@
     h2 .icon:hover { color: var(--link); }
     h2 .icon svg { width: 18px; height: 18px; fill: currentColor; vertical-align: -2px; }
     /* figures have white backgrounds; keep them on a white card in dark mode too */
-    .rs-media video {
-      display: block; width: 100%; height: auto; background: #fff;
-      border: 1px solid var(--line); border-radius: 6px;
+    #research video {
+      display: block; width: 100%; height: auto; background: #fff; box-sizing: border-box;
+      border: 1px solid var(--line); border-radius: 6px; cursor: zoom-in;
     }
     dialog.zoom { border: 0; padding: 12px; border-radius: 8px; background: #fff; max-width: 92vw; max-height: 92vh; cursor: zoom-out; }
     dialog.zoom::backdrop { background: rgba(0, 0, 0, .75); }
     dialog.zoom > * { display: block; max-width: calc(92vw - 24px); max-height: calc(92vh - 24px); }
     dialog.zoom > video { width: 1100px; height: auto; }   /* videos report no size until loaded; give them a target width */
-    /* Research statement: fiducial walkthrough, then the thorax; widths follow the aspect ratios (2.5:1, 1.35:1) so both are the same height */
-    .rs-media { display: flex; gap: 16px; align-items: flex-start; }
-    .rs-media video { flex: 2.5 1 0; min-width: 0; box-sizing: border-box; cursor: zoom-in; }
-    .rs-media video + video { flex: 1.348 1 0; }
-    .credit { font-size: 12px; }
+    /* Research statement: fiducial walkthrough full width after the first paragraph, thorax floated beside the rest */
+    #research video.float { float: right; width: 38%; margin: 4px 0 12px 24px; }
+    .credit { font-size: 12px; clear: both; }
     .papertitle { font-weight: 700; }
     .award { color: #c0392b; font-weight: 700; }
     ul.news { list-style: none; max-height: 10em; overflow-y: auto; margin: 0; padding: 0 4px; }
@@ -107,7 +105,8 @@
       .card { flex-basis: 80%; }
     }
     @media (max-width: 600px) {
-      .entry, .pub, .rs-media { flex-direction: column; gap: 8px; }
+      .entry, .pub { flex-direction: column; gap: 8px; }
+      #research video.float { float: none; width: 100%; margin: 0; }
       .teaser { flex: none; width: 100%; max-width: 400px; }
       .teaser { aspect-ratio: auto; }   /* stacked on phones: let the figure use its natural height */
       .entry .date { flex: none; }
@@ -158,10 +157,11 @@
 
   <section id="research">
     <h2>Research statement</h2>
-    <div class="rs-media">
-      <video src="assets/videos/fiducials.mp4" poster="assets/videos/fiducials.webp" autoplay muted loop playsinline aria-label="One heartbeat in ECG, SCG and PPG, step by step: the R peak, aortic valve opening (AO), PPG foot and aortic valve closure (AC) are marked as the valves open and close, followed by continuous recordings with RR intervals"></video>
-      <video src="assets/videos/thorax.mp4" poster="assets/videos/thorax.webp" autoplay muted loop playsinline aria-label="Animated thorax: the beating heart sends vibrations to wearable sensors on the sternum, pectoral and clavicle"></video>
-    </div>
+    <p>Every heartbeat tells a story through electrical activity, mechanical vibrations, and blood flow. These processes can be observed through signals such as the electrocardiogram (ECG), seismocardiogram (SCG), and photoplethysmogram (PPG). Although they reflect the same underlying physiology, each sensor captures a different and often incomplete view. Understanding how these signals relate to one another offers opportunities to recover information that is otherwise difficult to measure.</p>
+    <video src="assets/videos/fiducials.mp4" poster="assets/videos/fiducials.webp" autoplay muted loop playsinline aria-label="One heartbeat in ECG, SCG and PPG, step by step: the R peak, aortic valve opening (AO), PPG foot and aortic valve closure (AC) are marked as the valves open and close, followed by continuous recordings with RR intervals"></video>
+    <video class="float" src="assets/videos/thorax.mp4" poster="assets/videos/thorax.webp" autoplay muted loop playsinline aria-label="Animated thorax: the beating heart sends vibrations to wearable sensors on the sternum, pectoral and clavicle"></video>
+    <p>My research focuses on developing machine learning methods that learn these relationships while respecting the physical structure of the underlying system. I combine generative modeling, flow matching, physics-informed learning, and signal processing to reconstruct and transform physiological signals, preserve meaningful temporal and morphological information, and extract insights from noisy, real-world measurements.</p>
+    <p>Beyond developing algorithms, I am interested in bridging mathematical foundations with practical applications. My work spans model development, experimental validation, and clinical data analysis, with applications in cardiovascular monitoring, wearable sensing, and healthcare AI. More broadly, I aim to develop reliable, interpretable, and generalizable machine learning methods for complex time-series data, connecting advances in AI with meaningful real-world problems.</p>
     <p class="muted credit">
           Heart: <a href="https://sketchfab.com/3d-models/beating-heart-d9845afb1ee64ad094adc96320c67d98">“Beating Heart”</a> by jalmer, CC BY 4.0.
           Anatomy: <a href="https://lifesciencedb.jp/bp3d/">BodyParts3D</a>, © The Database Center for Life Science, CC BY 4.0.
