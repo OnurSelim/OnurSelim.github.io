@@ -48,20 +48,16 @@
     /* Every teaser sits in the same 4:3 white frame; the figure is scaled to fit inside it
        (object-fit: contain), so wide and tall figures keep their own aspect ratio. Click to enlarge. */
     .teaser {
-      flex: 0 0 240px; aspect-ratio: 4 / 3; box-sizing: border-box; padding: 6px;
+      flex: 0 0 160px; aspect-ratio: 4 / 3; box-sizing: border-box; padding: 6px;
       display: flex; align-items: center; justify-content: center;
       background: #fff; border: 1px solid var(--line); border-radius: 6px; cursor: zoom-in;
-      transition: flex-basis .2s;
     }
     .teaser img, .teaser video { display: block; max-width: 100%; max-height: 100%; object-fit: contain; }
     .tldr { margin: 6px 0 0; font-size: 14px; color: var(--muted); }
-    /* Papers stay compact (small figure, no TL;DR) and expand on hover/focus; touch screens (no hover) always show them expanded */
+    /* TL;DR shows on hover/focus; touch screens (no hover) always show it */
     @media (hover: hover) {
       .pub:not(:hover):not(:has(:focus-visible)) .tldr { display: none; }
       .pub:is(:hover, :has(:focus-visible)) { background: var(--box); }
-    }
-    @media (hover: hover) and (min-width: 601px) {
-      .pub:not(:hover):not(:has(:focus-visible)) .teaser { flex-basis: 110px; }
     }
     /* Highlights carousel: three cards per view, arrows on the sides */
     .carousel { position: relative; padding: 0 44px; }
