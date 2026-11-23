@@ -34,6 +34,7 @@
     .entry .date { flex: 0 0 140px; color: var(--muted); }
     .entry p { margin: 2px 0; }
     .entry ul { margin: 4px 0; padding-left: 18px; }
+    .entry .logo { display: block; width: 56px; height: 40px; object-fit: contain; padding: 5px; margin-bottom: 6px; background: #fff; border: 1px solid var(--line); border-radius: 6px; }   /* white tile so dark logos survive the dark theme */
     .muted { color: var(--muted); }
     .pub { display: flex; gap: 20px; align-items: flex-start; padding: 8px 10px; margin: 0 -10px 4px; border-radius: 6px; transition: background .2s; }
     /* Every teaser sits in the same 4:3 white frame; the figure is scaled to fit inside it
@@ -111,6 +112,8 @@
       #research video.left, #research video.right { float: none; width: 100%; margin: 0 0 12px; }
       .teaser { flex: none; width: 100%; max-width: 400px; }
       .teaser { aspect-ratio: auto; }   /* stacked on phones: let the figure use its natural height */
+      .entry .date:has(.logo) { display: flex; align-items: center; gap: 10px; }   /* logo beside the date, not above it */
+      .entry .logo { margin: 0; }
       .entry .date, .two-col .entry .date { flex: none; }   /* stacked: the desktop date width would become a tall gap */
       .carousel { padding: 0; }
       .carousel > .btn { display: none; }   /* swipe instead; the next card peeks in */
@@ -221,7 +224,7 @@
   <div class="two-col">
   <section id="education">
     <h2>Education</h2>
-    <div class="entry"><div class="date">2022 – present</div><div>
+    <div class="entry"><div class="date"><img class="logo" src="assets/logos/gatech.png" alt="Georgia Tech logo">2022 – present</div><div>
       <p><strong>Ph.D., Electrical and Computer Engineering</strong>, Georgia Tech</p>
       <p class="muted">Advisor: Prof. Omer T. Inan</p>
       <p>Graduate Research Assistant, <a href="https://irl.gatech.edu/">Inan Research Lab</a> (Dec 2022 – present)</p>
@@ -235,7 +238,7 @@
         <li><b>Mentoring.</b> Mentor graduate and undergraduate students on the signal-processing and machine-learning parts of ongoing
           research projects.</li>
       </ul></div></div>
-    <div class="entry"><div class="date">2020 – 2022</div><div>
+    <div class="entry"><div class="date"><img class="logo" src="assets/logos/metu.png" alt="METU logo">2020 – 2022</div><div>
       <p><strong>M.S., Electrical and Electronics Engineering</strong>, Middle East Technical University (METU)</p>
       <p class="muted">Advisor: Prof. A. Aydin Alatan</p>
       <p>Scientific Project Specialist, <a href="https://ogam.metu.edu.tr/">METU Center for Image Analysis</a> (Sep 2020 – Jun 2022)</p>
@@ -245,10 +248,10 @@
         <li>Implemented face detection, object tracking and background subtraction on embedded cameras, as multi-threaded C++
           pipelines that feed results back into the camera.</li>
       </ul></div></div>
-    <div class="entry"><div class="date">2017 – 2021</div><div>
+    <div class="entry"><div class="date"><img class="logo" src="assets/logos/metu.png" alt="METU logo">2017 – 2021</div><div>
       <p><strong>B.S., Mathematics (double major)</strong>, METU</p>
       <p class="muted">High honors</p></div></div>
-    <div class="entry"><div class="date">2016 – 2020</div><div>
+    <div class="entry"><div class="date"><img class="logo" src="assets/logos/metu.png" alt="METU logo">2016 – 2020</div><div>
       <p><strong>B.S., Electrical and Electronics Engineering</strong>, METU</p>
       <p class="muted">High honors</p></div></div>
   </section>
@@ -256,7 +259,7 @@
 
   <section id="industry">
     <h2>Industry experience</h2>
-    <div class="entry"><div class="date">May – Aug 2026</div><div>
+    <div class="entry"><div class="date"><img class="logo" src="assets/logos/cardiosense.png" alt="Cardiosense logo">May – Aug 2026</div><div>
       <p><strong>Data Science Intern</strong>, <a href="https://cardiosense.com/">Cardiosense</a>, Chicago, IL, USA</p>
       <ul>
         <li>Built reconstruction and representation-learning methods for instance-level signal-quality assessment: cross-modal
@@ -265,7 +268,7 @@
         <li>Curated and validated a multimodal clinical waveform dataset of millions of signal windows, reconciling the database,
           cloud storage and preprocessing pipelines, and prepared it for foundation-model training on cloud compute.</li>
       </ul></div></div>
-    <div class="entry"><div class="date">Jun 2023 – Nov 2025</div><div>
+    <div class="entry"><div class="date"><img class="logo" src="assets/logos/metadialog.png" alt="MetaDialog logo">Jun 2023 – Nov 2025</div><div>
       <p><strong>Research Engineer</strong>, <a href="https://www.metadialog.com/">MetaDialog</a>, Dubai, UAE</p>
       <ul>
         <li>Built a Python framework that uses LLMs (Claude 3.7) and vector embeddings to turn long multimodal clinical guideline
@@ -276,13 +279,13 @@
         <li>Built a GPT-3.5 data-extraction agent that parses structured and unstructured data to user-defined specifications,
           with output validation and context-aware documentation.</li>
       </ul></div></div>
-    <div class="entry"><div class="date">Jun – Sep 2019</div><div>
+    <div class="entry"><div class="date"><img class="logo" src="assets/logos/havelsan.png" alt="HAVELSAN logo">Jun – Sep 2019</div><div>
       <p><strong>Intern</strong>, <a href="https://www.havelsan.com.tr/">HAVELSAN</a>, Ankara, Turkiye</p>
       <ul>
         <li>Proposed and developed an object detection and segmentation algorithm in Python, based on
           <a href="https://arxiv.org/abs/1703.06870">Mask R-CNN</a> and <a href="https://arxiv.org/abs/1904.00592">ResUNet</a>.</li>
       </ul></div></div>
-    <div class="entry"><div class="date">Jun – Sep 2018</div><div>
+    <div class="entry"><div class="date"><img class="logo" src="assets/logos/esen.png" alt="ESEN System logo">Jun – Sep 2018</div><div>
       <p><strong>Intern</strong>, <a href="https://esensi.com.tr/en/">ESEN System</a>, Ankara, Turkiye</p>
       <ul>
         <li>Designed a benchmark pedestrian detection algorithm with support vector machines, and a MATLAB GUI for
