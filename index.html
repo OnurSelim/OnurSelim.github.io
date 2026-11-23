@@ -23,18 +23,27 @@
     h3 { font-size: 17px; font-weight: 700; margin: 24px 0 8px; }
     .topnav { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 22px; padding: 8px 16px; background: var(--bg); border-bottom: 1px solid var(--line); }
     .topnav a { color: var(--text); }
-    .about { display: grid; grid-template-columns: 1fr 300px; gap: 48px; }
-    .about h1, .about .tagline { text-align: center; }
-    .about h2 { margin-top: 16px; }
-    .side { text-align: center; padding-top: 24px; }
-    .side img { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; cursor: zoom-in; }
-    .links { text-align: center; margin-top: 12px; }
-    .links a { margin: 0 6px; }
+    /* Header: photo left, name + links + bio right */
+    .hero { display: grid; grid-template-columns: 230px 1fr; gap: 40px; align-items: start; padding-top: 24px; }
+    .hero .photo { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 12px; cursor: zoom-in; }
+    .hero h1 { font-size: 40px; font-weight: 700; line-height: 1.15; }
+    .hero .tagline { margin-bottom: 14px; }
+    .links { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+    .links a { padding: 2px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 14px; color: var(--text); }
+    .links a:hover, .links a:focus { border-color: var(--link); color: var(--link); }
     .entry { display: flex; gap: 16px; margin-bottom: 18px; }
     .entry .date { flex: 0 0 140px; color: var(--muted); }
     .entry p { margin: 2px 0; }
     .entry ul { margin: 4px 0; padding-left: 18px; }
-    .entry .logo { display: block; width: 56px; height: 40px; object-fit: contain; padding: 5px; margin-bottom: 6px; background: #fff; border: 1px solid var(--line); border-radius: 6px; }   /* white tile so dark logos survive the dark theme */
+    /* Timeline: logo on a vertical line | date above details */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .timeline .entry { display: grid; grid-template-columns: 56px 1fr; grid-template-areas: "node date" "node body"; gap: 0 14px; position: relative; margin: 0; padding-bottom: 22px; }
+    .timeline .entry::before { content: ""; position: absolute; left: 27px; top: 0; bottom: 0; width: 2px; background: var(--line); }   /* centered under the 56px logo */
+    .timeline .entry:first-of-type::before { top: 20px; }
+    .timeline .entry:last-of-type::before { bottom: auto; height: 20px; }
+    .timeline .entry .date { grid-area: date; }
+    .timeline .entry > div:last-child { grid-area: body; }
+    .entry .logo { grid-area: node; position: relative; box-sizing: border-box; width: 56px; height: 40px; object-fit: contain; padding: 5px; background: #fff; border: 1px solid var(--line); border-radius: 6px; }   /* white tile so dark logos survive the dark theme */
     .muted { color: var(--muted); }
     .pub { display: flex; gap: 20px; align-items: flex-start; padding: 8px 10px; margin: 0 -10px 4px; border-radius: 6px; transition: background .2s; }
     /* Every teaser sits in the same 4:3 white frame; the figure is scaled to fit inside it
@@ -69,8 +78,6 @@
     .card b { display: block; color: var(--text); font-size: 15px; }
     .card .venue { display: block; color: var(--link); font-weight: 700; }
     .card > .award { display: block; }
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
-    .two-col .entry .date { flex-basis: 100px; }
     .pub:target { animation: flash 2s; }   /* briefly mark the paper a highlight card jumped to */
     @keyframes flash { from { background: var(--box); outline: 2px solid var(--link); } }
     .filters { display: flex; gap: 8px; margin: 12px 0 4px; }
@@ -99,12 +106,19 @@
     #research video.right { float: right; width: 38%; margin: 4px 0 12px 24px; }
     .credit { font-size: 12px; clear: both; }
     .papertitle { font-weight: 700; }
+    /* venue badge, award badge, link buttons */
+    .pub em { display: inline-block; margin: 4px 6px 0 0; padding: 0 8px; border-radius: 4px; font-style: normal; font-size: 13px; font-weight: 700; color: var(--link); background: color-mix(in srgb, var(--link) 14%, transparent); }
+    .pub .award { display: inline-block; margin-right: 4px; padding: 0 8px; border-radius: 4px; font-size: 13px; background: color-mix(in srgb, #c0392b 16%, transparent); }
+    .pub-links { display: inline-flex; gap: 6px; margin-top: 4px; vertical-align: top; }
+    .pub-links a { padding: 0 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--text); }
+    .pub-links a:hover, .pub-links a:focus { border-color: var(--link); color: var(--link); }
     .award { color: #c0392b; font-weight: 700; }
     ul.news { list-style: none; max-height: 10em; overflow-y: auto; margin: 0; padding: 0 4px; }
     ul.news li { display: grid; grid-template-columns: 100px 1fr; gap: 12px; margin-bottom: 6px; }
     ul.news .date { color: var(--muted); }
     @media (max-width: 800px) {
-      .about, .two-col { grid-template-columns: 1fr; gap: 0; }
+      .hero { grid-template-columns: 160px 1fr; gap: 24px; }
+      .two-col { grid-template-columns: 1fr; gap: 0; }
       .card { flex-basis: 80%; }
     }
     @media (max-width: 600px) {
@@ -112,9 +126,9 @@
       #research video.left, #research video.right { float: none; width: 100%; margin: 0 0 12px; }
       .teaser { flex: none; width: 100%; max-width: 400px; }
       .teaser { aspect-ratio: auto; }   /* stacked on phones: let the figure use its natural height */
-      .entry .date:has(.logo) { display: flex; align-items: center; gap: 10px; }   /* logo beside the date, not above it */
-      .entry .logo { margin: 0; }
-      .entry .date, .two-col .entry .date { flex: none; }   /* stacked: the desktop date width would become a tall gap */
+      .hero { grid-template-columns: 1fr; }
+      .hero .photo { width: 160px; }
+      .entry .date { flex: none; }   /* stacked: the desktop date width would become a tall gap */
       .carousel { padding: 0; }
       .carousel > .btn { display: none; }   /* swipe instead; the next card peeks in */
     }
@@ -127,11 +141,20 @@
 </nav>
 <main>
 
-  <section id="about" class="about">
+  <section id="about" class="hero">
+    <img class="photo" src="assets/prof_pic.jpg" alt="Photo of Onur Selim Kilic">
     <div>
       <h1>Onur Selim Kilic</h1>
-      <div class="muted tagline">Ph.D. student · Machine learning for physiological signals · Georgia Tech</div>
-      <h2>About me</h2>
+      <div class="muted tagline">Ph.D. student · Machine learning for physiological signals · Inan Research Lab, Georgia Tech, Atlanta</div>
+      <p class="links">
+        <a href="mailto:kselim97@gmail.com">Email</a>
+        <a href="assets/cv.pdf">CV</a>
+        <a href="https://scholar.google.com/citations?user=cGBKVNIAAAAJ">Scholar</a>
+        <a href="https://github.com/OnurSelim">GitHub</a>
+        <a href="https://www.linkedin.com/in/onur-selim-kili%C3%A7-6486371a7/">LinkedIn</a>
+        <a href="https://orcid.org/0000-0003-4159-9972">ORCID</a>
+        <a href="https://twitter.com/selimkl2">X</a>
+      </p>
       <p>
         I am a Ph.D. student in Electrical and Computer Engineering at Georgia Tech, advised by
         Prof. Omer T. Inan in the <a href="https://irl.gatech.edu/">Inan Research Lab</a>.
@@ -146,19 +169,6 @@
         Before Georgia Tech, I did my M.S. at <a href="https://ogam.metu.edu.tr/">METU Center for Image Analysis</a>
         with Prof. A. Aydin Alatan, working on event-based cameras for video frame interpolation.
       </p>
-    </div>
-    <div class="side">
-      <img src="assets/prof_pic.jpg" alt="Photo of Onur Selim Kilic">
-      <p class="links">
-        <a href="mailto:kselim97@gmail.com">Email</a> /
-        <a href="assets/cv.pdf">CV</a> /
-        <a href="https://scholar.google.com/citations?user=cGBKVNIAAAAJ">Scholar</a> /
-        <a href="https://github.com/OnurSelim">GitHub</a> /
-        <a href="https://www.linkedin.com/in/onur-selim-kili%C3%A7-6486371a7/">LinkedIn</a> /
-        <a href="https://orcid.org/0000-0003-4159-9972">ORCID</a> /
-        <a href="https://twitter.com/selimkl2">X</a>
-      </p>
-      <p class="muted">Inan Research Lab<br>Georgia Institute of Technology<br>Atlanta, GA, USA</p>
     </div>
   </section>
 
@@ -222,9 +232,9 @@
 
 
   <div class="two-col">
-  <section id="education">
+  <section id="education" class="timeline">
     <h2>Education</h2>
-    <div class="entry"><div class="date"><img class="logo" src="assets/logos/gatech.png" alt="Georgia Tech logo">2022 – present</div><div>
+    <div class="entry"><img class="logo" src="assets/logos/gatech.png" alt="Georgia Tech logo"><div class="date">2022 – present</div><div>
       <p><strong>Ph.D., Electrical and Computer Engineering</strong>, Georgia Tech</p>
       <p class="muted">Advisor: Prof. Omer T. Inan</p>
       <p>Graduate Research Assistant, <a href="https://irl.gatech.edu/">Inan Research Lab</a> (Dec 2022 – present)</p>
@@ -238,7 +248,7 @@
         <li><b>Mentoring.</b> Mentor graduate and undergraduate students on the signal-processing and machine-learning parts of ongoing
           research projects.</li>
       </ul></div></div>
-    <div class="entry"><div class="date"><img class="logo" src="assets/logos/metu.png" alt="METU logo">2020 – 2022</div><div>
+    <div class="entry"><img class="logo" src="assets/logos/metu.png" alt="METU logo"><div class="date">2020 – 2022</div><div>
       <p><strong>M.S., Electrical and Electronics Engineering</strong>, Middle East Technical University (METU)</p>
       <p class="muted">Advisor: Prof. A. Aydin Alatan</p>
       <p>Scientific Project Specialist, <a href="https://ogam.metu.edu.tr/">METU Center for Image Analysis</a> (Sep 2020 – Jun 2022)</p>
@@ -248,18 +258,18 @@
         <li>Implemented face detection, object tracking and background subtraction on embedded cameras, as multi-threaded C++
           pipelines that feed results back into the camera.</li>
       </ul></div></div>
-    <div class="entry"><div class="date"><img class="logo" src="assets/logos/metu.png" alt="METU logo">2017 – 2021</div><div>
+    <div class="entry"><img class="logo" src="assets/logos/metu.png" alt="METU logo"><div class="date">2017 – 2021</div><div>
       <p><strong>B.S., Mathematics (double major)</strong>, METU</p>
       <p class="muted">High honors</p></div></div>
-    <div class="entry"><div class="date"><img class="logo" src="assets/logos/metu.png" alt="METU logo">2016 – 2020</div><div>
+    <div class="entry"><img class="logo" src="assets/logos/metu.png" alt="METU logo"><div class="date">2016 – 2020</div><div>
       <p><strong>B.S., Electrical and Electronics Engineering</strong>, METU</p>
       <p class="muted">High honors</p></div></div>
   </section>
 
 
-  <section id="industry">
+  <section id="industry" class="timeline">
     <h2>Industry experience</h2>
-    <div class="entry"><div class="date"><img class="logo" src="assets/logos/cardiosense.png" alt="Cardiosense logo">May – Aug 2026</div><div>
+    <div class="entry"><img class="logo" src="assets/logos/cardiosense.png" alt="Cardiosense logo"><div class="date">May – Aug 2026</div><div>
       <p><strong>Data Science Intern</strong>, <a href="https://cardiosense.com/">Cardiosense</a>, Chicago, IL, USA</p>
       <ul>
         <li>Built reconstruction and representation-learning methods for instance-level signal-quality assessment: cross-modal
@@ -268,7 +278,7 @@
         <li>Curated and validated a multimodal clinical waveform dataset of millions of signal windows, reconciling the database,
           cloud storage and preprocessing pipelines, and prepared it for foundation-model training on cloud compute.</li>
       </ul></div></div>
-    <div class="entry"><div class="date"><img class="logo" src="assets/logos/metadialog.png" alt="MetaDialog logo">Jun 2023 – Nov 2025</div><div>
+    <div class="entry"><img class="logo" src="assets/logos/metadialog.png" alt="MetaDialog logo"><div class="date">Jun 2023 – Nov 2025</div><div>
       <p><strong>Research Engineer</strong>, <a href="https://www.metadialog.com/">MetaDialog</a>, Dubai, UAE</p>
       <ul>
         <li>Built a Python framework that uses LLMs (Claude 3.7) and vector embeddings to turn long multimodal clinical guideline
@@ -279,13 +289,13 @@
         <li>Built a GPT-3.5 data-extraction agent that parses structured and unstructured data to user-defined specifications,
           with output validation and context-aware documentation.</li>
       </ul></div></div>
-    <div class="entry"><div class="date"><img class="logo" src="assets/logos/havelsan.png" alt="HAVELSAN logo">Jun – Sep 2019</div><div>
+    <div class="entry"><img class="logo" src="assets/logos/havelsan.png" alt="HAVELSAN logo"><div class="date">Jun – Sep 2019</div><div>
       <p><strong>Intern</strong>, <a href="https://www.havelsan.com.tr/">HAVELSAN</a>, Ankara, Turkiye</p>
       <ul>
         <li>Proposed and developed an object detection and segmentation algorithm in Python, based on
           <a href="https://arxiv.org/abs/1703.06870">Mask R-CNN</a> and <a href="https://arxiv.org/abs/1904.00592">ResUNet</a>.</li>
       </ul></div></div>
-    <div class="entry"><div class="date"><img class="logo" src="assets/logos/esen.png" alt="ESEN System logo">Jun – Sep 2018</div><div>
+    <div class="entry"><img class="logo" src="assets/logos/esen.png" alt="ESEN System logo"><div class="date">Jun – Sep 2018</div><div>
       <p><strong>Intern</strong>, <a href="https://esensi.com.tr/en/">ESEN System</a>, Ankara, Turkiye</p>
       <ul>
         <li>Designed a benchmark pedestrian detection algorithm with support vector machines, and a MATLAB GUI for
@@ -315,7 +325,7 @@
       <div>
         <span class="papertitle">Physics-Constrained Direct Flow Matching: Governing the Source-to-Target Vector Field with a Known Physiological Law</span><br>
         <strong>Onur Selim Kilic*</strong>, Holland E. Ernst*, Ozgur Kara, James M. Rehg, Amit J. Shah, Omer T. Inan<br>
-        <em>ICLR 2027</em>, under review
+        <em>ICLR 2027</em> <span class="muted">under review</span>
         <p class="tldr">Imposes a known source-to-target physiological law, a learned two-element Windkessel model, directly on the flow-matching vector field at every flow time rather than only on predicted endpoints.</p>
       </div>
     </div>
@@ -333,8 +343,8 @@
       <div>
         <a class="papertitle" href="https://arxiv.org/abs/2610.08510">Cylindrical Geodesic Flow Matching for Quasiperiodic Physiological Signal Transformation</a><br>
         <strong>Onur Selim Kilic</strong>, Afra Nawar, Cem O. Yaldiz, Michael J. Cho, Ahmet Rasim Emirdagi, Demet Tangolar, Amirali Aghazadeh, Amit J. Shah, Omer T. Inan<br>
-        <em>NeurIPS 2026</em><br>
-        <a href="https://github.com/OnurSelim/FM-CG">code</a>
+        <em>NeurIPS 2026</em>
+        <span class="pub-links"><a href="https://arxiv.org/abs/2610.08510">Paper</a><a href="https://github.com/OnurSelim/FM-CG">Code</a></span>
         <p class="tldr">Translates quasiperiodic signals such as PPG and SCG across sensing locations by flow matching along a closed-form geodesic on the phase–amplitude cylinder instead of the standard affine path.</p>
       </div>
     </div>
@@ -342,9 +352,10 @@
     <div class="pub hl" id="g2g">
       <div class="teaser" data-full="assets/teasers/guideline2graph_full.webp"><img src="assets/teasers/guideline2graph.webp" alt="Traditional practice and one-shot summarization compared with the proposed chunk, generate and aggregate pipeline" loading="lazy"></div>
       <div>
-        <span class="award">[Best Presentation]</span> <a class="papertitle" href="https://arxiv.org/abs/2604.02477">Guideline2Graph: Profile-Aware Multimodal Parsing for Executable Clinical Decision Graphs</a><br>
+        <span class="award">Best Presentation</span> <a class="papertitle" href="https://arxiv.org/abs/2604.02477">Guideline2Graph: Profile-Aware Multimodal Parsing for Executable Clinical Decision Graphs</a><br>
         <strong>Onur Selim Kilic</strong>, Yeti Z. Gurbuz, Cem O. Yaldiz, Afra Nawar, Etrit Haxholli, Ogul Can, Eli Waxman<br>
         <em>CVPR 2026 Workshop on Medical Reasoning with Vision-Language Foundation Models</em>
+        <span class="pub-links"><a href="https://arxiv.org/abs/2604.02477">Paper</a></span>
         <p class="tldr">Turns full clinical practice guidelines into executable decision graphs through topology-aware chunking, interface-constrained graph generation and provenance-preserving aggregation.</p>
       </div>
     </div>
@@ -354,6 +365,7 @@
         <a class="papertitle" href="https://openreview.net/forum?id=8a5ZWxHbN7">Time-Delay Invariance of Persistence Diagrams for Seismocardiogram Signal Quality Assessment</a><br>
         Afra Nawar, Farhan N. Rahman, <strong>Onur Selim Kilic</strong>, Amit J. Shah, Omer T. Inan<br>
         <em>BSN 2025</em>
+        <span class="pub-links"><a href="https://openreview.net/forum?id=8a5ZWxHbN7">Paper</a></span>
       </div>
     </div>
 
@@ -363,6 +375,7 @@
         <a class="papertitle" href="https://openreview.net/forum?id=ziFNeJYT1D">Short-Term Physiological Forecasting with Adaptive Covariance Matrix Estimation</a><br>
         Cem O. Yaldiz, <strong>Onur Selim Kilic</strong>, Omer T. Inan<br>
         <em>BSN 2025</em>
+        <span class="pub-links"><a href="https://openreview.net/forum?id=ziFNeJYT1D">Paper</a></span>
         <p class="tldr">An autoregressive Kalman filter that estimates its noise covariances adaptively, for beat-to-beat forecasting of cardiac timing intervals without hyperparameter tuning.</p>
       </div>
     </div>
@@ -370,9 +383,10 @@
     <div class="pub core" id="cardiac-output">
       <div class="teaser" data-full="assets/teasers/cardiac_output_full.webp"><img src="assets/teasers/cardiac_output.webp" alt="Pipeline: cardiac output windows across baseline, hypovolemia and resuscitation label stroke volume; ECG, PPG, SCG and cross-domain features feed a machine learning model that estimates stroke volume and cardiac output" loading="lazy"></div>
       <div>
-        <span class="award">[Best Paper]</span> <a class="papertitle" href="https://openreview.net/forum?id=3oVBk5Q3RP">Enabling Intelligent Resuscitation: Non-Invasive Cardiac Output Monitoring via Physiological Sensing and Machine Learning</a><br>
+        <span class="award">Best Paper</span> <a class="papertitle" href="https://openreview.net/forum?id=3oVBk5Q3RP">Enabling Intelligent Resuscitation: Non-Invasive Cardiac Output Monitoring via Physiological Sensing and Machine Learning</a><br>
         Demet Tangolar, <strong>Onur Selim Kilic</strong>, Samuel Liu, Cem O. Yaldiz, Jacob P. Kimball, Omer T. Inan<br>
         <em>BSN 2025</em>
+        <span class="pub-links"><a href="https://openreview.net/forum?id=3oVBk5Q3RP">Paper</a></span>
         <p class="tldr">Estimates stroke volume and cardiac output from wearable ECG, SCG and PPG without baseline calibration, in a porcine hemorrhage and resuscitation model.</p>
       </div>
     </div>
@@ -382,8 +396,8 @@
       <div>
         <a class="papertitle" href="https://arxiv.org/abs/2209.09359">E-VFIA: Event-Based Video Frame Interpolation with Attention</a><br>
         <strong>Onur Selim Kilic</strong>, Ahmet Akman, A. Aydin Alatan<br>
-        <em>ICRA 2023</em><br>
-        <a href="https://github.com/ahmetakman/E-VFIA">code</a>
+        <em>ICRA 2023</em>
+        <span class="pub-links"><a href="https://arxiv.org/abs/2209.09359">Paper</a><a href="https://github.com/ahmetakman/E-VFIA">Code</a></span>
         <p class="tldr">A lightweight kernel-based interpolator that fuses event and RGB features with deformable convolutions and encodes events with multi-head self-attention.</p>
       </div>
     </div>
@@ -395,7 +409,7 @@
       <div>
         <span class="papertitle">The Stabilized Hilbert Transform: Local Phase Repair for Robust Instantaneous Phase Estimation in Physiological Signals</span><br>
         <strong>Onur Selim Kilic</strong>, Afra Nawar, Cem Okan Yaldiz, Amit J. Shah, Omer T. Inan<br>
-        <em>Computers in Biology and Medicine</em>, under review
+        <em>Computers in Biology and Medicine</em> <span class="muted">under review</span>
         <p class="tldr">Detects where the Hilbert phase becomes unstable at low amplitude and replaces it with the smoothest phase trajectory consistent with the observed phase change.</p>
       </div>
     </div>
@@ -404,7 +418,7 @@
       <div>
         <span class="papertitle">Signal-Quality-Aware Fusion of Physiological Foundation Models for Low Cardiac Output Syndrome Detection After Congenital Heart Disease Surgery</span><br>
         Ahmet Rasim Emirdagi, Zeineb Bouzid, Cem Okan Yaldiz, Darpit Dave, Shruti Jeyaraman, Hyonyoung Shin, Jeffrey Liu, <strong>Onur Selim Kilic</strong>, Izzet T. Akbasli, Orkun Baloglu, Anirudha Das, Kristopher Kormos, Bradley S. Marino, Catherine K. Allan, Hani Najm, Nanshu Lu, Omer T. Inan, Animesh Tandon<br>
-        <em>Nature Communications</em>, under review
+        <em>Nature Communications</em> <span class="muted">under review</span>
       </div>
     </div>
 
@@ -412,7 +426,7 @@
       <div>
         <span class="papertitle">Characterizing Heterogeneous Lower-Limb Health States in Collegiate Athletes Using Multimodal Wearable Sensing</span><br>
         Holland E. Ernst, Ahmet Rasim Emirdagi, Vikram Abbaraju, Cem O. Yaldiz, <strong>Onur Selim Kilic</strong>, Samer Mabrouk, Emma Hixenbaugh, Brian Hack, Abbey Green, Christopher J. Nichols, Quentin Goossens, Aprameya Satish, Brian King, Mindy Millard-Stafford, Alessio Medda, Omer T. Inan<br>
-        <em>npj Digital Medicine</em>, under review
+        <em>npj Digital Medicine</em> <span class="muted">under review</span>
       </div>
     </div>
 
@@ -420,7 +434,7 @@
       <div>
         <span class="papertitle">Multi-Modal Self-Supervised Learning of Signal Dynamics Enables Scalable Blood Volume Assessment in Hypovolemia</span><br>
         Cem O. Yaldiz, Demet Tangolar, <strong>Onur Selim Kilic</strong>, Afra Nawar, Ahmet Rasim Emirdagi, Gabriela I. Cestero, Zeineb Bouzid, Harish K. Haresamudram, Zhongjun J. Wu, Thomas Ploetz, Jin-Oh Hahn, Omer T. Inan<br>
-        <em>IEEE Transactions on Biomedical Engineering</em>, under review
+        <em>IEEE Transactions on Biomedical Engineering</em> <span class="muted">under review</span>
       </div>
     </div>
 
@@ -429,7 +443,7 @@
       <div>
         <span class="papertitle">Automated Detection of Abnormal Stress-Induced Blood Pressure Reactivity in Post-Myocardial-Infarction Individuals Using Multimodal Wearable Signals</span><br>
         Afra Nawar, <strong>Onur Selim Kilic</strong>, Cem O. Yaldiz, Farhan N. Rahman, George Haddad, Lewam Stefanos, Tatum Roberts, Jeffery Osei, Kara Suvada, Abdulkareem Murtala, Lucy Shallenberger, Arshed Quyyumi, Kasra Moazzami, Viola Vaccarino, Omer T. Inan, Amit J. Shah<br>
-        <em>ACM Transactions on Computing for Healthcare</em>, under review
+        <em>ACM Transactions on Computing for Healthcare</em> <span class="muted">under review</span>
         <p class="tldr">Classifies abnormal blood pressure reactivity to a public speaking stressor in post-myocardial-infarction individuals from ECG, SCG and PCG features recorded by a multimodal wearable patch.</p>
       </div>
     </div>
@@ -438,7 +452,8 @@
       <div>
         <a class="papertitle" href="https://doi.org/10.1109/JTEHM.2026.3721498">KneeMS to Monitor Knee Acoustic Emissions for Juvenile Idiopathic Arthritis</a><br>
         Ruchik Mishra, Quentin Goossens, Christopher J. Nichols, Ahmet Rasim Emirdagi, Chuoqi Chen, <strong>Onur Selim Kilic</strong>, Mohammad Nikbakht, Prabhkirat S. Bindra, Catherine Yang, Cate Garretson, Lori Ponder, Sampath Prahalad, Omer T. Inan<br>
-        <em>IEEE Journal of Translational Engineering in Health and Medicine</em>, 2025
+        <em>IEEE Journal of Translational Engineering in Health and Medicine</em> <span class="muted">2025</span>
+        <span class="pub-links"><a href="https://doi.org/10.1109/JTEHM.2026.3721498">Paper</a></span>
       </div>
     </div>
 
@@ -446,7 +461,8 @@
       <div>
         <a class="papertitle" href="https://doi.org/10.1109/JBHI.2026.3718375">EffSCG: An Efficient Framework for Real-Time Seismocardiogram Denoising on Resource-Constrained Edge Devices</a><br>
         Ahmet Rasim Emirdagi, Cem O. Yaldiz, <strong>Onur Selim Kilic</strong>, Michael J. Cho, Omer T. Inan<br>
-        <em>IEEE Journal of Biomedical and Health Informatics</em>, 2025
+        <em>IEEE Journal of Biomedical and Health Informatics</em> <span class="muted">2025</span>
+        <span class="pub-links"><a href="https://doi.org/10.1109/JBHI.2026.3718375">Paper</a></span>
       </div>
     </div>
 
@@ -454,7 +470,8 @@
       <div>
         <a class="papertitle" href="https://www.sciencedirect.com/science/article/pii/S0010482526002350">Establishing Generalizability of Wearable-Enabled Blood Volume Decompensation Status Estimation Algorithms Using Transfer Learning</a><br>
         Demet Tangolar, Zeineb Bouzid, Cem O. Yaldiz, <strong>Onur Selim Kilic</strong>, Jacob P. Kimball, Parham Rezaei, Sina Masoumi Shahrbabak, John Vandenberge, Yuanyuan Zhou, Nancy Kim, Douglas Tran, Randy Perez, Donghyeon Kim, Nicholas Burch, Rayan Bahrami, Zhongjun J. Wu, Jin-Oh Hahn, Omer T. Inan<br>
-        <em>Computers in Biology and Medicine</em>, 2025
+        <em>Computers in Biology and Medicine</em> <span class="muted">2025</span>
+        <span class="pub-links"><a href="https://www.sciencedirect.com/science/article/pii/S0010482526002350">Paper</a></span>
       </div>
     </div>
 
@@ -463,7 +480,8 @@
       <div>
         <a class="papertitle" href="https://www.nature.com/articles/s44385-025-00064-4">A Robust and Interpretable Deep Transfer Learning Framework on Knee Acoustic Emissions for Osteoarthritis Classification</a><br>
         <strong>Onur Selim Kilic*</strong>, Ahmet Rasim Emirdagi*, Christopher J. Nichols, Quentin Goossens, Dave Ewart, Omer T. Inan<br>
-        <em>npj Biomedical Innovations</em>, 2025
+        <em>npj Biomedical Innovations</em> <span class="muted">2025</span>
+        <span class="pub-links"><a href="https://www.nature.com/articles/s44385-025-00064-4">Paper</a></span>
         <p class="tldr">Classifies knee osteoarthritis from acoustic emission spectrograms with a transfer-learned ResNet-18, using FullGrad saliency to show which time–frequency regions drive each decision.</p>
       </div>
     </div>
@@ -472,7 +490,8 @@
       <div>
         <a class="papertitle" href="https://www.nature.com/articles/s41597-026-06733-2">SCG-PHD: Seismocardiography Pig Hypovolemia Dataset for Signal Quality Indexing and Validated Cardiac Timings</a><br>
         Michael J. Cho, Cem O. Yaldiz, Afra Nawar, Vikram Abbaraju, Ryan C. Emadi, <strong>Onur Selim Kilic</strong>, Zeineb Bouzid, Farhan N. Rahman, Chuoqi Chen, Jacob M. Cook, Ahmet Rasim Emirdagi, Roshan L. Saigal, Mickey Paulus, Omer T. Inan<br>
-        <em>Scientific Data</em>, 2025
+        <em>Scientific Data</em> <span class="muted">2025</span>
+        <span class="pub-links"><a href="https://www.nature.com/articles/s41597-026-06733-2">Paper</a></span>
       </div>
     </div>
 
@@ -480,7 +499,8 @@
       <div>
         <a class="papertitle" href="https://www.sciencedirect.com/science/article/pii/S095656632600093X">A Wearable Closed-Loop System for Acute Stress Monitoring and Mitigation through Transcutaneous Median Nerve Stimulation</a><br>
         Farhan N. Rahman, Prabhkirat S. Bindra, Afra Nawar, H. Trask Crane, Jesus Antonio Sanchez-Perez, John A. Berkebile, <strong>Onur Selim Kilic</strong>, Chuoqi Chen, Vikram Abbaraju, Christopher J. Nichols, Jacob M. Cook, Samer Mabrouk, Asim H. Gazi, Jin-Oh Hahn, Omer T. Inan<br>
-        <em>Biosensors and Bioelectronics</em>, 2025
+        <em>Biosensors and Bioelectronics</em> <span class="muted">2025</span>
+        <span class="pub-links"><a href="https://www.sciencedirect.com/science/article/pii/S095656632600093X">Paper</a></span>
       </div>
     </div>
 
@@ -488,7 +508,8 @@
       <div>
         <a class="papertitle" href="https://ieeexplore.ieee.org/abstract/document/11202337">Life-Vest Embedded Ballistocardiogram Measurement System for Underwater Heart Rate and Heart Rate Variability Monitoring</a><br>
         Chuoqi Chen, Zeineb Bouzid, Gabriela I. Cestero, Jacob M. Cook, Mohammad Nikbakht, Nicholas Y. Harris, Afra Nawar, <strong>Onur Selim Kilic</strong>, Jin-Oh Hahn, Omer T. Inan<br>
-        <em>IEEE Sensors Journal</em>, 2025
+        <em>IEEE Sensors Journal</em> <span class="muted">2025</span>
+        <span class="pub-links"><a href="https://ieeexplore.ieee.org/abstract/document/11202337">Paper</a></span>
       </div>
     </div>
 
@@ -497,7 +518,8 @@
       <div>
         <a class="papertitle" href="https://ieeexplore.ieee.org/document/11123627">Elucidating the Reactivity of Reflectance-Based Core Body Photoplethysmogram to Posture and Respiratory Changes</a><br>
         Afra Nawar, <strong>Onur Selim Kilic</strong>, Farhan N. Rahman, Chuoqi Chen, Michael Chan, John A. Berkebile, Amit J. Shah, Omer T. Inan<br>
-        <em>IEEE Sensors Journal</em>, 2025
+        <em>IEEE Sensors Journal</em> <span class="muted">2025</span>
+        <span class="pub-links"><a href="https://ieeexplore.ieee.org/document/11123627">Paper</a></span>
         <p class="tldr">Compares sternum and back reflectance PPG with finger PPG across posture and breathing changes in 24 healthy participants.</p>
       </div>
     </div>
@@ -507,7 +529,8 @@
       <div>
         <a class="papertitle" href="https://pubmed.ncbi.nlm.nih.gov/40541072/">Heart Rate Informed Detection of Cardiac Events Using the Kalman Filter</a><br>
         <strong>Onur Selim Kilic</strong>, Afra Nawar, Cem O. Yaldiz, Farhan N. Rahman, Chuoqi Chen, Amit J. Shah, Omer T. Inan<br>
-        <em>Computers in Biology and Medicine</em>, 2025
+        <em>Computers in Biology and Medicine</em> <span class="muted">2025</span>
+        <span class="pub-links"><a href="https://pubmed.ncbi.nlm.nih.gov/40541072/">Paper</a></span>
         <p class="tldr">Detects aortic valve opening and closure in noisy seismocardiograms by combining heart-rate-scaled candidate selection from a resting baseline with a Kalman filter.</p>
       </div>
     </div>
@@ -586,7 +609,7 @@
   zoom.className = 'zoom';
   document.body.append(zoom);
   zoom.addEventListener('click', () => zoom.close());
-  document.querySelectorAll('.teaser, .side img, #research video').forEach(t => t.addEventListener('click', () => {
+  document.querySelectorAll('.teaser, .hero .photo, #research video').forEach(t => t.addEventListener('click', () => {
     // data-full on the teaser = high-resolution image for the enlarged view
     const el = (t.firstElementChild || t).cloneNode();
     if (t.dataset.full) el.src = t.dataset.full;
