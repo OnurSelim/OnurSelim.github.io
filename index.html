@@ -111,7 +111,9 @@
       #research video.left, #research video.right { float: none; width: 100%; margin: 0 0 12px; }
       .teaser { flex: none; width: 100%; max-width: 400px; }
       .teaser { aspect-ratio: auto; }   /* stacked on phones: let the figure use its natural height */
-      .entry .date { flex: none; }
+      .entry .date, .two-col .entry .date { flex: none; }   /* stacked: the desktop date width would become a tall gap */
+      .carousel { padding: 0; }
+      .carousel > .btn { display: none; }   /* swipe instead; the next card peeks in */
     }
   </style>
 </head>
